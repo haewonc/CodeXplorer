@@ -1,0 +1,166 @@
+{
+    "query": "add normalization to Price variable",
+    "result": {
+        "snippets": [
+            {
+                "how": "This line should be revised to apply normalization to the 'Price' variable. We can do this by replacing it with 'y = (data['Price'] - data['Price'].min()) / (data['Price'].max() - data['Price'].min())'. This will normalize the 'Price' variable to lie between 0 and 1.",
+                "idx": 0,
+                "lines": [
+                    "y = data['Price']"
+                ]
+            }
+        ]
+    },
+    "source_documents": [
+        {
+            "metadata": {
+                "context": "\nMethod of class ResultVisualizer",
+                "language": "python",
+                "node_idx": 29,
+                "source": "example1/src/visualizer.py"
+            },
+            "page_content": "def vis_data(self, data):\n    sns.pairplot(data, x_vars=['Area', 'Bedrooms', 'Bathrooms'], y_vars='Price', height=4, aspect=1, kind='scatter')\n    plt.savefig('data.png')\n    plt.clf()\n    plt.close()",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "\nMethod of class ResultVisualizer",
+                "language": "python",
+                "node_idx": 31,
+                "source": "example1/src/visualizer.py"
+            },
+            "page_content": "def vis_preds(self, y_true, y_pred):\n    plt.scatter(y_true, y_pred)\n    plt.xlabel('Actual Prices')\n    plt.ylabel('Predicted Prices')\n    plt.title('Predicted vs Actual Prices')",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "",
+                "language": "python",
+                "node_idx": 0,
+                "source": "example1/main.py"
+            },
+            "page_content": "data = pd.read_csv('data/house_prices.csv')\nX = data[['Area', 'Bedrooms', 'Bathrooms']]\ny = data['Price']\nmodels = [LinearRegression(), DecisionTreeRegressor()]\ncomparator = ModelComparator(models)",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "\nMethod of class ResultVisualizer",
+                "language": "python",
+                "node_idx": 31,
+                "source": "example1/src/visualizer.py"
+            },
+            "page_content": "plt.title('Predicted vs Actual Prices')\n    plt.plot([y_true.min(), y_true.max()], [y_true.min(), y_true.max()], 'k--', lw=2)\n    plt.savefig('preds.png')\n    plt.clf()\n    plt.close()",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "",
+                "language": "python",
+                "node_idx": "for imports",
+                "source": "example1/main.py"
+            },
+            "page_content": "import pandas as pd",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "\nMethod of class ResultVisualizer",
+                "language": "python",
+                "node_idx": 34,
+                "source": "example1/src/visualizer.py"
+            },
+            "page_content": "def vis_feature_importance(self, best_model):\n    if hasattr(best_model, 'feature_importances_'):\n        sns.barplot(x=best_model.feature_importances_, y=['Area', 'Bedrooms', 'Bathrooms'])\n        plt.title('Feature Importance')",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "",
+                "language": "python",
+                "node_idx": "for imports",
+                "source": "example1/src/comparator.py"
+            },
+            "page_content": "import numpy as np",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "\nMethod of class ResultVisualizer",
+                "language": "python",
+                "node_idx": 34,
+                "source": "example1/src/visualizer.py"
+            },
+            "page_content": "plt.title('Feature Importance')\n        plt.savefig('feat.png')\n        plt.clf()\n        plt.close()",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "",
+                "language": "python",
+                "node_idx": "for imports",
+                "source": "example1/src/visualizer.py"
+            },
+            "page_content": "import matplotlib.pyplot as plt\nimport seaborn as sns",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "",
+                "language": "python",
+                "node_idx": 0,
+                "source": "example1/main.py"
+            },
+            "page_content": "comparator = ModelComparator(models)\ncomparator.fit_and_evaluate(X_train, y_train, X_valid, y_valid)\nbest_model = comparator.get_best_model()\ntest_predictions = best_model.predict(X_test)\ntest_mse = mean_squared_error(y_test, test_predictions)",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "\nMethod of class ModelComparator",
+                "language": "python",
+                "node_idx": 16,
+                "source": "example1/src/comparator.py"
+            },
+            "page_content": "mse = mean_squared_error(y_valid, predictions)\n        if mse < best_mse:\n            best_mse = mse\n            self.best_model = model",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "",
+                "language": "python",
+                "node_idx": 0,
+                "source": "example1/main.py"
+            },
+            "page_content": "test_mse = mean_squared_error(y_test, test_predictions)\nprint(f'Test MSE of Best Model: {test_mse}')\nvisualizer = ResultVisualizer()\nvisualizer.vis_data(data)\nvisualizer.vis_preds(y_test, test_predictions)\nvisualizer.vis_feature_importance(best_model)",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "\nMethod of class ModelComparator",
+                "language": "python",
+                "node_idx": 26,
+                "source": "example1/src/comparator.py"
+            },
+            "page_content": "def get_best_model(self):\n    return self.best_model",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "\nMethod of class ModelComparator",
+                "language": "python",
+                "node_idx": 12,
+                "source": "example1/src/comparator.py"
+            },
+            "page_content": "def __init__(self, models):\n    self.models = models\n    self.best_model = None",
+            "type": "Document"
+        },
+        {
+            "metadata": {
+                "context": "\nMethod of class ModelComparator",
+                "language": "python",
+                "node_idx": 16,
+                "source": "example1/src/comparator.py"
+            },
+            "page_content": "def fit_and_evaluate(self, X_train, y_train, X_valid, y_valid):\n    best_mse = np.inf\n    for model in self.models:\n        model.fit(X_train, y_train)\n        predictions = model.predict(X_valid)\n        mse = mean_squared_error(y_valid, predictions)",
+            "type": "Document"
+        }
+    ]
+}
