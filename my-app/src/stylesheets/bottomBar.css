@@ -1,0 +1,52 @@
+.bottomBar {
+	height: 20px;
+	width: calc(100% - 40px);
+	position: fixed;
+	bottom: 0;
+	left: 40px;
+	background-color: #3078c9;
+	transition: 0.5s ease;
+	display: flex;
+	flex-direction: row;
+	align-items: column;
+}
+
+.remoteWindowButton {
+	height: 20px;
+	width: 40px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background-color: #16825d;
+	transition: 0.5s ease;
+	display: flex;
+	align-items: center;
+}
+
+.bottomBarImage {
+	padding: 0px 0px;
+	width: 14px;
+	transition: 0.5s ease;
+	display: flex;
+	align-items: center;
+	text-align: center
+}
+
+.bottomBarText {
+	margin: 0px;
+	padding: 0px 1px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	color: white;
+	font-size: 12px;
+	font-weight: 500px;
+}
+
+.seperator {
+	padding: 0px 10px;
+}
+
+.seperatorTop {
+	padding: 0px 5px;
+}

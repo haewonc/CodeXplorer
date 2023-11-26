@@ -1,0 +1,49 @@
+.leftNav {
+	height: calc(100% - 20px);
+	width: 50px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: #333333;
+	transition: 0.5s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+}
+
+.leftNavIcon {
+	padding: 14px 10px;
+	padding-left: 14px;
+}
+
+.flexSeperator {
+	flex: 1 1;
+}
+
+.leftNavButton {
+	all: unset;
+	transition: 0.1s ease !important;
+	z-index: 2;
+}
+
+.leftNavButton:hover {
+	all: unset;
+	filter: brightness(120%) !important;
+}
+
+.activeRectangle {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 52px;
+	width: 3px;
+	background-color: #C5C5C5;
+	filter: brightness(120%)
+}
+
+.undraggable {
+	-webkit-user-drag: none;
+	-khtml-user-drag: none;
+	-moz-user-drag: none;
+	-o-user-drag: none;
+  }

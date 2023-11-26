@@ -1,0 +1,24 @@
+.breadCrumbBar {
+	height: 20px;
+	width: 100%;
+	position: fixed;
+	top: 35px;
+	left: 320px;
+	background-color: #222222;
+	color: #a9a9a9;
+	transition: 0.5s ease;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	z-index: 2;
+	padding: 3px 10px;
+	font-size: 13px;
+	font-weight: 400;
+	-webkit-font-smoothing: auto;
+	-moz-osx-font-smoothing: auto;
+	text-rendering: optimizeLegibility;
+}
+
+.breadcrumbBarText {
+	padding-left: 10px
+   }

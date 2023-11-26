@@ -1,0 +1,52 @@
+.explorerBar {
+	height: calc(100% - 20px);
+	width: 270px;
+	position: fixed;
+	top: 0;
+	left: 50px;
+	background-color: #252526;
+	color: #bbbbbb;
+	transition: 0.5s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+	
+	-webkit-font-smoothing: auto;
+	-moz-osx-font-smoothing: auto;
+	text-rendering: optimizeLegibility;
+	font-weight: 300;
+	font-size: 12px;
+}
+
+.explorerBarHeading {
+	padding-left: 20px;
+}
+
+.explorerLevelWorkspace {
+	padding-left: 20px;
+	font-weight: 700;
+}
+
+/* CSS for folder and file names */
+.folder-name,
+.file-name {
+  transition: background-color 0.2s, text-decoration 0.2s;
+  /* margin-top: 10px; */
+  /* margin-bottom: 10px; */
+  font-size: 13px; 
+  font-weight: 400;
+}
+
+/* Hover effect */
+.folder-name:hover,
+.file-name:hover {
+  text-decoration: underline; /* Underline the text */
+  cursor: pointer;
+}
+
+.scrollable-container {
+	max-height: 300px; /* Adjust the maximum height as needed */
+	overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
+	border: 1px solid #ccc; /* Add a border to the container (optional) */
+	padding: 10px; /* Add padding for spacing (optional) */
+  }
