@@ -9,6 +9,7 @@ import 'prismjs/themes/prism-tomorrow.css';
 
 function CodeWindow({ codeContent, activeFile, updateCodeContent }) {
     const [code, setCode] = useState(codeContent);
+    const editorRef = useRef(null);
     const textareaRef = useRef(null);
 
     const change = (codes) => {
