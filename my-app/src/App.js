@@ -18,7 +18,7 @@ import jsonData from './nodes.json'
 // const repoTree = await processTree(files, fileContents);
 const nodeTree = jsonData;
 const repoName = 'CodeXplorer';
-const repoTree = {'folders': {'Folder 1': {'folders': {}, 'files': {'two.txt': 'HELLO WORLD'}}}, 'files': {'sheet.txt': 'WHAT IS UP'}};
+const repoTree = {'folders': {'Folder 1': {'folders': {}, 'files': {'two.py': 'import pandas as pd\nprint("A")'}}}, 'files': {'sheet.py': 'import numpy as np\na=[1,2,3,4]\na=np.array(a)'}};
 
 function App() {
 	const [codeContent, setCodeContent] = useState(''); // State variable for code content
