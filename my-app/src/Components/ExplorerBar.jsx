@@ -1,4 +1,7 @@
 import "../stylesheets/explorerBar.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfo, faFile, faCircleUser, faCube } from '@fortawesome/free-solid-svg-icons'
+
 
 function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	if (nodeTree.length === 0) {
@@ -49,8 +52,12 @@ function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	  <div>
 		<div>
 			<div>
-				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}} onClick={() => handleClick(fileName, repoTree, updateCodeContent)}>
-				{'> ' + name}
+				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}}>
+				{type === 'variable' && <FontAwesomeIcon icon={faInfo} style={{marginRight: '3px'}}/>}
+                {first.name === '__main__' && <FontAwesomeIcon icon={faFile} style={{marginRight: '3px'}}/>}
+                {type === 'class' && <FontAwesomeIcon icon={faCircleUser} style={{marginRight: '3px'}}/>}
+                {type === 'function' && first.name !== '__main__' && <FontAwesomeIcon icon={faCube} style={{marginRight: '3px'}}/>}
+                {name}
 				</div>
 				<div>
 				{children.map((child) => (
@@ -119,8 +126,10 @@ const ExplorerBar = (props) => {
 				<p className="explorerBarHeading">EXPLORER</p>
 				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
-				<div class="scrollable-container">
-					<NodeView repoTree={repoTree} nodeTree={nodeTree} depth={0} updateCodeContent={updateCodeContent} />
+				<div className="scrollable-container" style={{
+                    borderBottom: '.5px solid rgb(72, 72, 72)'
+                }}>
+					<NodeView nodeTree={nodeTree} depth={0} />
 				</div>
 				<span className="explorerLevelWorkspace"> {repoName} </span>
 				<div class="scrollable-container">
