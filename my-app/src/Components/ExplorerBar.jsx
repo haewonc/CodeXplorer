@@ -40,7 +40,7 @@ function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	const source = first.source;
 	const sourceSplit = source.split('/');
 	const fileName = sourceSplit[sourceSplit.length - 1];
-	const name = first.name == '__main__' ? fileName : first.name;
+	const name = first.name === '__main__' ? fileName : first.name;
 
 
 	const children = first.children;
@@ -132,7 +132,7 @@ const ExplorerBar = (props) => {
 					<NodeView nodeTree={nodeTree} depth={0} />
 				</div>
 				<span className="explorerLevelWorkspace"> {repoName} </span>
-				<div class="scrollable-container">
+				<div className="scrollable-container">
 					<TreeView repoTree={repoTree} depth={0} updateCodeContent={updateCodeContent} />
 				</div>
 			</div>
