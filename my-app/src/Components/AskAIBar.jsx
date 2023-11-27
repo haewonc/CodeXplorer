@@ -1,4 +1,7 @@
 import "../stylesheets/askAIBar.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+
 
 const AskAIBar = () => {
   return (
@@ -11,7 +14,7 @@ const AskAIBar = () => {
           name="search" 
           placeholder="Enter your purpose..."
         />
-        <button className="askAIButton">Ask AI!</button>
+        <button className="askAIButton"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
       </div>
     </div>
   );

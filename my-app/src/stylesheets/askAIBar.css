@@ -19,22 +19,23 @@
   }
   
   .askAISearch {
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 14px; /* Added px for font size */
     padding: 2px;
     height: 30px;
     width: 300px;
-    margin-right: 10px; /* Spacing between input and button */
+    margin-right: 5px; /* Spacing between input and button */
   }
   
   .askAIButton {
     padding: 2px; /* Adjust padding as needed */
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 14px;
     height: 30px;
+    width: 30px;
     justify-content: center;
     align-items: center;
-    background-color: aquamarine;
+    background-color: rgb(197, 210, 206);
     cursor: pointer; /* Cursor style for button */
   }
   
