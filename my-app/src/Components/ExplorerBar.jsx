@@ -1,7 +1,7 @@
 import "../stylesheets/explorerBar.css";
+import "../stylesheets/explorerBar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfo, faFile, faCircleUser, faCube } from '@fortawesome/free-solid-svg-icons'
-
 
 function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	if (nodeTree.length === 0) {
@@ -23,13 +23,6 @@ function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 		};
 	};
 
-	// "type": "function", 
-	// "name": "__main__", 
-	// "code": "data = pd.read_csv('data/house_prices.csv')\nX = data[['Area', 'Bedrooms', 'Bathrooms']]\ny = data['Price']\nmodels = [LinearRegression(), DecisionTreeRegressor()]\ncomparator = ModelComparator(models)\ncomparator.fit_and_evaluate(X_train, y_train, X_valid, y_valid)\nbest_model = comparator.get_best_model()\ntest_predictions = best_model.predict(X_test)\ntest_mse = mean_squared_error(y_test, test_predictions)\nprint(f'Test MSE of Best Model: {test_mse}')\nvisualizer = ResultVisualizer()\nvisualizer.vis_data(data)\nvisualizer.vis_preds(y_test, test_predictions)\nvisualizer.vis_feature_importance(best_model)", 
-	// "source": "example1/main.py", 
-	// "children": [1, 2, 3, 4, 5, 6, 7, 8, 9], 
-	// "context": null}, 
-	
 	const first = nodeTree[0];
 
 	const generateSpaces = 30 + (depth * 10);
@@ -52,7 +45,7 @@ function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	  <div>
 		<div>
 			<div>
-				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}}>
+				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}} onClick={() => handleClick(fileName, repoTree)}>
 				{type === 'variable' && <FontAwesomeIcon icon={faInfo} style={{marginRight: '3px'}}/>}
                 {first.name === '__main__' && <FontAwesomeIcon icon={faFile} style={{marginRight: '3px'}}/>}
                 {type === 'class' && <FontAwesomeIcon icon={faCircleUser} style={{marginRight: '3px'}}/>}
@@ -126,10 +119,8 @@ const ExplorerBar = (props) => {
 				<p className="explorerBarHeading">EXPLORER</p>
 				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
-				<div className="scrollable-container" style={{
-                    borderBottom: '.5px solid rgb(72, 72, 72)'
-                }}>
-					<NodeView nodeTree={nodeTree} depth={0} />
+				<div class="scrollable-container">
+					<NodeView repoTree={repoTree} nodeTree={nodeTree} depth={0} updateCodeContent={updateCodeContent} />
 				</div>
 				<span className="explorerLevelWorkspace"> {repoName} </span>
 				<div class="scrollable-container">
