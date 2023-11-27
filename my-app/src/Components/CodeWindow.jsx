@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
-import "../stylesheets/codeWindow.css";
-import LoadingIndicator from "./LoadingIndicator";
 
-function CodeWindow({ codeContent, nodeTree }) {
-	const [loaded, setLoaded] = useState(false);
+import React from 'react';
+import { useRef, useState, useEffect } from "react";
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-python'; 
+import 'prismjs/themes/prism-tomorrow.css';
 
-	return (
-	  <div className="codeWindow">
-		<div className="codeWindowContent" contentEditable="true">
-		  <pre>{codeContent} </pre>
-		</div>
-		{/* {loaded === false ? <LoadingIndicator /> : null} */}
-	  </div>
-	);
-  }
+function CodeWindow({ codeContent }) {
+    const [code, setCode] = useState(codeContent);
+    const textareaRef = useRef(null);
 
+    useEffect(() => {
+        setCode(codeContent);
+      }, [codeContent]);
+      return (
+        <div className='codeContainer'>
+            <div className='editorContainer'>
+                <Editor
+                    value={code}
+                    onValueChange={code => setCode(code)}
+                    highlight={code => highlight(code, languages.python)}
+                    padding={15}
+                    style={{
+                    fontFamily: '"Fira code", "Fira Mono", monospace',
+                    fontSize: 13,
+                    color: '#d4d4d4',
+                    height: '100%',
+                    width: '100%',
+                }}
+            />
+            </div>
+        </div>
+      );
+}
 export default CodeWindow;

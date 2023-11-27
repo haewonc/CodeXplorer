@@ -1,123 +1,125 @@
-.codeWindow {
-	height: calc(100% - 65px);
-	width: calc(100% - (50px + 270px));
-	position: absolute;
-	top: 55px;
-	left: 320px;
-	background-color: #222222;
-	color: #d4d4d4;
-	transition: 0.5s ease;
-	display: flex;
-	flex-direction: column;
-	align-items: left;
-}
+/* CodeWindow main container styles */
+/* .codeWindow {
+    position: absolute;
+    top: 55px;
+    left: 320px;
+    bottom: 0px;
+    
+    width: calc(100% - 320px); 
+    min-height: 100%;
+} */
 
-.codeWindowContent {
-	overflow: scroll;
-	height: calc(100% - 20px);
-	font-family: monospace;
-	font-size: 14px;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
-	text-rendering: optimizeLegibility;
-	font-weight: 400;
-	padding: 20px 40px;
+.codeContainer {
+    position: absolute;
+    top: 65px;
+    left: 320px;
+    right: 0;
+    bottom: 20px;
+    max-height: calc(100% - 75px); 
+    overflow: auto;
+}
+ 
+.editorContainer{
+    position: 'relative';
+    text-align: left;
+    box-sizing: border-box;
+    padding: 0px;
+    overflow: hidden;
 }
 
 .lineNumbersBar {
-	overflow: scroll;
-	height: calc(100% - 20px);
-	top: 65px;
-	width: 20px;
-	padding: 20px 0;
-	line-height: 100%;
-	font-family: monospace;
-	font-size: 14px;
-	position: fixed;
-	left: 320px;
-	background-color: #222222;
-	transition: 0.5s ease;
-	display: flex;
-	flex-direction: column;
-	align-items: left;
+    overflow: scroll;
+    height: calc(100% - 20px);
+    top: 65px;
+    width: 20px;
+    padding: 20px 0;
+    line-height: 100%;
+    font-family: monospace;
+    font-size: 14px;
+    position: fixed;
+    left: 320px;
+    background-color: #222222;
+    transition: 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
 }
 
 .codeKeyword {
-	color: #569cd6;
-	font-weight: 500;
+    color: #569cd6;
+    font-weight: 500;
 }
 
 .codeKeywordLite {
-	color: #569cd6;
+    color: #569cd6;
 }
 
 .codeClass {
-	color: #4ec9b0;
+    color: #4ec9b0;
 }
 
 .codeOperator {
-	color: #d4d4d4;
+    color: #d4d4d4;
 }
 
 .codeInputs {
-	/* variable */
-	color: #729db3;
+    /* variable */
+    color: #729db3;
 }
 
 .codeMethodCall {
-	color: #9cdcfe;
+    color: #9cdcfe;
 }
 
 .codeString {
-	color: #ce9178;
+    color: #ce9178;
 }
 
 .codeFunction {
-	color: #dcdcaa;
+    color: #dcdcaa;
 }
 
 .codeNumber {
-	color: #b5cea8;
+    color: #b5cea8;
 }
 
 .codeComment {
-	color: #919191;
+    color: #919191;
 }
 
 .codeReturn {
-	color: #c586c0;
+    color: #c586c0;
 }
 
 .codeFunctionButton {
-	color: #dcdcaa;
-	text-decoration: underline;
-	text-decoration-thickness: 1.5px;
+    color: #dcdcaa;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
 }
 
 .toRedditButton:hover {
-	background-color: #4e4e4e;
-	color: #afaf87;
-	border-radius: 3px;
+    background-color: #4e4e4e;
+    color: #afaf87;
+    border-radius: 3px;
 }
 
 .tab1 {
-	padding-left: 2em;
+    padding-left: 2em;
 }
 
 .indentGuide {
-	border-left: 1px solid;
-	border-color: #353535;
+    border-left: 1px solid;
+    border-color: #353535;
 }
 
-
 [contenteditable]:focus {
-	outline: 0px solid transparent;
-	caret-color: white;
+    outline: 0px solid transparent;
+    caret-color: white;
 }
 
 ::selection {
-	background: #3a3d41; /* WebKit/Blink Browsers */
+    background: #3a3d41; /* WebKit/Blink Browsers */
 }
 ::-moz-selection {
-	background: #3a3d41; /* Gecko Browsers */
+    background: #3a3d41; /* Gecko Browsers */
 }

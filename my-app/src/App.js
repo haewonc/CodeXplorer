@@ -5,7 +5,7 @@ import "./stylesheets/codeWindow.css";
 import LeftNav from "./Components/LeftNav";
 import ExplorerBar from "./Components/ExplorerBar";
 import TabBar from "./Components/TabBar";
-import BreadCrumbBar from "./Components/BreadCrumbBar";
+import AskAIBar from "./Components/AskAIBar";
 import CodeWindow from "./Components/CodeWindow";
 import RemoteWindowButton from "./Components/RemoteWindowButton";
 import BottomBar from "./Components/BottomBar";
@@ -18,8 +18,7 @@ const { files, fileContents } = await fetchGitHubRepoContents('stdeguzman', 'Cod
 const repoTree = await processTree(files, fileContents);
 const nodeTree = jsonData;
 const repoName = 'CodeXplorer';
-console.log(repoTree);
-// const repoTree = {'folders': {'Folder 1': {'folders': {}, 'files': {'two.txt': 'HELLO WORLD'}}}, 'files': {'sheet.txt': 'WHAT IS UP'}};
+// const repoTree = {'folders': {'Folder 1': {'folders': {}, 'files': {'two.py': 'import pandas as pd\nprint("A")'}}}, 'files': {'sheet.py': 'import numpy as np\na=[1,2,3,4]\na=np.array(a)'}};
 
 function App() {
 	const [codeContent, setCodeContent] = useState(''); // State variable for code content
@@ -30,19 +29,20 @@ function App() {
 	  setActiveFile(activeFile);
 	};
 	return (
-		<>
+		<div>
 			<div className="noselect">
 				<LeftNav />
 				<ExplorerBar repoTree={repoTree} nodeTree={nodeTree} updateCodeContent={updateCodeContent} repoName={repoName}/>
-				<TabBar activeFile={activeFile}/>
-				<BreadCrumbBar />
+				<AskAIBar />
+                <TabBar activeFile={activeFile}/>
+				
 			</div>
-			<CodeWindow codeContent={codeContent} />
+			{activeFile !== '' && <CodeWindow codeContent={codeContent} />}
 			<div className="noselect">
 				<RemoteWindowButton />
 				<BottomBar />
 			</div>
-		</>
+		</div>
 	);
 }
 

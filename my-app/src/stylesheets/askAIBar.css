@@ -1,0 +1,41 @@
+.askAIBar {
+    height: 35px;
+    width: calc(100% - 320px); /* Adjusted for the fixed left position */
+    position: fixed;
+    top: 0px;
+    left: 320px;
+    display: flex;
+    justify-content: center; /* Center align the content */
+    align-items: center;
+    z-index: 2;
+  }
+  
+  .askAIContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .askAISearch {
+    border-radius: 6px;
+    font-size: 14px; /* Added px for font size */
+    padding: 2px;
+    height: 30px;
+    width: 300px;
+    margin-right: 5px; /* Spacing between input and button */
+  }
+  
+  .askAIButton {
+    padding: 2px; /* Adjust padding as needed */
+    border-radius: 6px;
+    font-size: 14px;
+    height: 30px;
+    width: 30px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(197, 210, 206);
+    cursor: pointer; /* Cursor style for button */
+  }
+  

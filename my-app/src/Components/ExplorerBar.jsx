@@ -1,9 +1,13 @@
 import "../stylesheets/explorerBar.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfo, faFile, faCircleUser, faCube } from '@fortawesome/free-solid-svg-icons'
+
 
 function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	if (nodeTree.length === 0) {
 	  return null;
 	}
+<<<<<<< HEAD
 
 	const handleFileClick = (fileName, repoTree) => {
 		let temp = repoTree;
@@ -26,6 +30,8 @@ function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	// "source": "example1/main.py", 
 	// "children": [1, 2, 3, 4, 5, 6, 7, 8, 9], 
 	// "context": null}, 
+=======
+>>>>>>> 4c3b8ae18be43ad71ce779d391111f821209e4a9
 	
 	const first = nodeTree[0];
 
@@ -37,7 +43,7 @@ function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	const source = first.source;
 	const sourceSplit = source.split('/');
 	const fileName = sourceSplit[sourceSplit.length - 1];
-	const name = first.name == '__main__' ? fileName : first.name;
+	const name = first.name === '__main__' ? fileName : first.name;
 
 
 	const children = first.children;
@@ -49,13 +55,26 @@ function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	  <div>
 		<div>
 			<div>
+<<<<<<< HEAD
 				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}} onClick={() => handleFileClick(fileName, repoTree)}>
 				{'> ' + name}
+=======
+				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}}>
+				{type === 'variable' && <FontAwesomeIcon icon={faInfo} style={{marginRight: '3px'}}/>}
+                {first.name === '__main__' && <FontAwesomeIcon icon={faFile} style={{marginRight: '3px'}}/>}
+                {type === 'class' && <FontAwesomeIcon icon={faCircleUser} style={{marginRight: '3px'}}/>}
+                {type === 'function' && first.name !== '__main__' && <FontAwesomeIcon icon={faCube} style={{marginRight: '3px'}}/>}
+                {name}
+>>>>>>> 4c3b8ae18be43ad71ce779d391111f821209e4a9
 				</div>
 				<div>
 				{children.map((child) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
+<<<<<<< HEAD
 						<NodeView repoTree={repoTree} nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} />
+=======
+						<NodeView key={child} nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} />
+>>>>>>> 4c3b8ae18be43ad71ce779d391111f821209e4a9
 					// </div>
 				))}
 				</div>
@@ -87,8 +106,8 @@ function TreeView({ repoTree, depth, updateCodeContent }) {
 	  <div>
 		<div>
 		  {folderNames.map((folderName) => (
-			<div>
-				<div key={folderName} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}}>
+			<div key={folderName} >
+				<div className="folder-name" style={{paddingLeft: `${generateSpaces}px`}}>
 				{'> ' + folderName}
 				</div>
 				<div>
@@ -117,13 +136,20 @@ const ExplorerBar = (props) => {
 		<>
 			<div className="explorerBar">
 				<p className="explorerBarHeading">EXPLORER</p>
-				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
+				<span className="explorerLevelWorkspace"> WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
+<<<<<<< HEAD
 				<div class="scrollable-container">
 					<NodeView repoTree={repoTree} nodeTree={nodeTree} depth={0} updateCodeContent={updateCodeContent} />
+=======
+				<div className="scrollable-container" style={{
+                    borderBottom: '.5px solid rgb(72, 72, 72)'
+                }}>
+					<NodeView nodeTree={nodeTree} depth={0} />
+>>>>>>> 4c3b8ae18be43ad71ce779d391111f821209e4a9
 				</div>
 				<span className="explorerLevelWorkspace"> {repoName} </span>
-				<div class="scrollable-container">
+				<div className="scrollable-container">
 					<TreeView repoTree={repoTree} depth={0} updateCodeContent={updateCodeContent} />
 				</div>
 			</div>
