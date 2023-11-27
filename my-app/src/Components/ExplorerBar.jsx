@@ -38,9 +38,9 @@ function NodeView({ nodeTree, depth }) {
 				{'> ' + name}
 				</div>
 				<div>
-				{children.map((child) => (
+				{children.map((index, child) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
-						<NodeView nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} />
+						<NodeView key={index} nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} />
 					// </div>
 				))}
 				</div>
@@ -71,13 +71,13 @@ function TreeView({ repoTree, depth, updateCodeContent }) {
 	return (
 	  <div>
 		<div>
-		  {folderNames.map((folderName) => (
+		  {folderNames.map((index, folderName) => (
 			<div>
 				<div key={folderName} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}}>
 				{'> ' + folderName}
 				</div>
 				<div>
-					<TreeView repoTree={folders[folderName]} depth={depth + 1} updateCodeContent={updateCodeContent}/> {/* Recursively render nested folders */}
+					<TreeView key={index} repoTree={folders[folderName]} depth={depth + 1} updateCodeContent={updateCodeContent}/> {/* Recursively render nested folders */}
 				</div>
 			</div>
 		  ))}
@@ -104,11 +104,11 @@ const ExplorerBar = (props) => {
 				<p className="explorerBarHeading">EXPLORER</p>
 				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
-				<div class="scrollable-container">
+				<div className="scrollable-container">
 					<NodeView nodeTree={nodeTree} depth={0} />
 				</div>
 				<span className="explorerLevelWorkspace"> {repoName} </span>
-				<div class="scrollable-container">
+				<div className="scrollable-container">
 					<TreeView repoTree={repoTree} depth={0} updateCodeContent={updateCodeContent} />
 				</div>
 			</div>
