@@ -10,7 +10,7 @@ async function processTree(files, fileContents) {
         const isLastSegment = i === pathSegments.length - 1;
 
         if (isLastSegment) {
-            currentNode['files'][segment] = fileContents.get(filePath);
+            currentNode['files'][segment] = fileContents[filePath];
         } else {
             if (!currentNode.folders[segment]) {
                 currentNode.folders[segment] = { folders: {}, files: {} };
