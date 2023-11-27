@@ -22,7 +22,7 @@ function NodeView({ nodeTree, depth }) {
 	const source = first.source;
 	const sourceSplit = source.split('/');
 	const fileName = sourceSplit[sourceSplit.length - 1];
-	const name = first.name == '__main__' ? fileName : first.name;
+	const name = first.name === '__main__' ? fileName : first.name;
 
 
 	const children = first.children;
@@ -38,9 +38,9 @@ function NodeView({ nodeTree, depth }) {
 				{'> ' + name}
 				</div>
 				<div>
-				{children.map((index, child) => (
+				{children.map((child) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
-						<NodeView key={index} nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} />
+						<NodeView key={child} nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} />
 					// </div>
 				))}
 				</div>
@@ -71,13 +71,13 @@ function TreeView({ repoTree, depth, updateCodeContent }) {
 	return (
 	  <div>
 		<div>
-		  {folderNames.map((index, folderName) => (
-			<div>
-				<div key={folderName} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}}>
+		  {folderNames.map((folderName) => (
+			<div key={folderName} >
+				<div className="folder-name" style={{paddingLeft: `${generateSpaces}px`}}>
 				{'> ' + folderName}
 				</div>
 				<div>
-					<TreeView key={index} repoTree={folders[folderName]} depth={depth + 1} updateCodeContent={updateCodeContent}/> {/* Recursively render nested folders */}
+					<TreeView repoTree={folders[folderName]} depth={depth + 1} updateCodeContent={updateCodeContent}/> {/* Recursively render nested folders */}
 				</div>
 			</div>
 		  ))}
@@ -102,7 +102,7 @@ const ExplorerBar = (props) => {
 		<>
 			<div className="explorerBar">
 				<p className="explorerBarHeading">EXPLORER</p>
-				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
+				<span className="explorerLevelWorkspace"> WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
 				<div className="scrollable-container">
 					<NodeView nodeTree={nodeTree} depth={0} />
