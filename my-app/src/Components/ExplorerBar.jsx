@@ -1,9 +1,24 @@
 import "../stylesheets/explorerBar.css";
 
-function NodeView({ nodeTree, depth }) {
+function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	if (nodeTree.length === 0) {
 	  return null;
 	}
+
+	const handleFileClick = (fileName, repoTree) => {
+		let temp = repoTree;
+		let content = '';
+		for (const item of sourceSplit) {
+			if (temp.folders[item]) {
+				temp = temp.folders[item];
+			}
+			else {
+				temp = temp.files;
+				content = temp[fileName];
+				updateCodeContent(content, fileName);
+			}
+		};
+	};
 
 	// "type": "function", 
 	// "name": "__main__", 
@@ -34,18 +49,18 @@ function NodeView({ nodeTree, depth }) {
 	  <div>
 		<div>
 			<div>
-				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}}>
+				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}} onClick={() => handleFileClick(fileName, repoTree)}>
 				{'> ' + name}
 				</div>
 				<div>
 				{children.map((child) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
-						<NodeView nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} />
+						<NodeView repoTree={repoTree} nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} />
 					// </div>
 				))}
 				</div>
 				<div>
-					<NodeView nodeTree={nextNode} depth={depth} />
+					<NodeView repoTree={repoTree} nodeTree={nextNode} depth={depth} />
 				</div>
 			</div>
 		</div>
@@ -105,7 +120,7 @@ const ExplorerBar = (props) => {
 				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
 				<div class="scrollable-container">
-					<NodeView nodeTree={nodeTree} depth={0} />
+					<NodeView repoTree={repoTree} nodeTree={nodeTree} depth={0} updateCodeContent={updateCodeContent} />
 				</div>
 				<span className="explorerLevelWorkspace"> {repoName} </span>
 				<div class="scrollable-container">

@@ -14,11 +14,12 @@ import { fetchGitHubRepoContents } from './Functions/GitHubContents';
 import { processTree } from './Functions/ProcessPaths';
 import jsonData from './nodes.json'
 
-// const { files, fileContents } = await fetchGitHubRepoContents('stdeguzman', 'CodeXplorer-Fork', 'no-frontend');
-// const repoTree = await processTree(files, fileContents);
+const { files, fileContents } = await fetchGitHubRepoContents('stdeguzman', 'CodeXplorer-Fork', 'no-frontend');
+const repoTree = await processTree(files, fileContents);
 const nodeTree = jsonData;
 const repoName = 'CodeXplorer';
-const repoTree = {'folders': {'Folder 1': {'folders': {}, 'files': {'two.txt': 'HELLO WORLD'}}}, 'files': {'sheet.txt': 'WHAT IS UP'}};
+console.log(repoTree);
+// const repoTree = {'folders': {'Folder 1': {'folders': {}, 'files': {'two.txt': 'HELLO WORLD'}}}, 'files': {'sheet.txt': 'WHAT IS UP'}};
 
 function App() {
 	const [codeContent, setCodeContent] = useState(''); // State variable for code content
