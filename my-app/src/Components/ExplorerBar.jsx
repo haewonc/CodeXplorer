@@ -4,13 +4,6 @@ function NodeView({ nodeTree, depth }) {
 	if (nodeTree.length === 0) {
 	  return null;
 	}
-
-	// "type": "function", 
-	// "name": "__main__", 
-	// "code": "data = pd.read_csv('data/house_prices.csv')\nX = data[['Area', 'Bedrooms', 'Bathrooms']]\ny = data['Price']\nmodels = [LinearRegression(), DecisionTreeRegressor()]\ncomparator = ModelComparator(models)\ncomparator.fit_and_evaluate(X_train, y_train, X_valid, y_valid)\nbest_model = comparator.get_best_model()\ntest_predictions = best_model.predict(X_test)\ntest_mse = mean_squared_error(y_test, test_predictions)\nprint(f'Test MSE of Best Model: {test_mse}')\nvisualizer = ResultVisualizer()\nvisualizer.vis_data(data)\nvisualizer.vis_preds(y_test, test_predictions)\nvisualizer.vis_feature_importance(best_model)", 
-	// "source": "example1/main.py", 
-	// "children": [1, 2, 3, 4, 5, 6, 7, 8, 9], 
-	// "context": null}, 
 	
 	const first = nodeTree[0];
 

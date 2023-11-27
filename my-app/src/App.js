@@ -5,7 +5,7 @@ import "./stylesheets/codeWindow.css";
 import LeftNav from "./Components/LeftNav";
 import ExplorerBar from "./Components/ExplorerBar";
 import TabBar from "./Components/TabBar";
-import BreadCrumbBar from "./Components/BreadCrumbBar";
+import AskAIBar from "./Components/AskAIBar";
 import CodeWindow from "./Components/CodeWindow";
 import RemoteWindowButton from "./Components/RemoteWindowButton";
 import BottomBar from "./Components/BottomBar";
@@ -29,19 +29,20 @@ function App() {
 	  setActiveFile(activeFile);
 	};
 	return (
-		<>
+		<div>
 			<div className="noselect">
 				<LeftNav />
 				<ExplorerBar repoTree={repoTree} nodeTree={nodeTree} updateCodeContent={updateCodeContent} repoName={repoName}/>
-				<TabBar activeFile={activeFile}/>
-				<BreadCrumbBar />
+				<AskAIBar />
+                <TabBar activeFile={activeFile}/>
+				
 			</div>
-			<CodeWindow codeContent={codeContent} />
+			{activeFile !== '' && <CodeWindow codeContent={codeContent} />}
 			<div className="noselect">
 				<RemoteWindowButton />
 				<BottomBar />
 			</div>
-		</>
+		</div>
 	);
 }
 

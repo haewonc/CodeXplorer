@@ -1,9 +1,10 @@
 .tabBar {
-	height: 35px;
+	height: 30px;
 	width: 100%;
 	position: fixed;
-	top: 0;
+	top: 35px;
 	left: 320px;
+    border-bottom: .5px solid rgb(72, 72, 72);
 	background-color: #252526;
 	transition: 0.5s ease;
 	display: flex;

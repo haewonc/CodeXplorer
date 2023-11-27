@@ -1,51 +1,37 @@
-import React, { useRef, useState } from "react";
-import "../stylesheets/codeWindow.css";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
-// import LoadingIndicator from "./LoadingIndicator";
 
-function CodeWindow({ codeContent, nodeTree }) {
-  // const [loaded, setLoaded] = useState(false);
-  const [code, setCode] = useState(codeContent);
-  const textareaRef = useRef(null);
+import React from 'react';
+import { useRef, useState, useEffect } from "react";
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-python'; 
+import 'prismjs/themes/prism-tomorrow.css';
 
-  return (
-    <div
-      className="codeWindow"
-      role="button"
-      tabIndex={0}
-      onKeyDown={() => textareaRef.current?.focus()}
-      onClick={() => textareaRef.current?.focus()}
-    >
-      <div className="scrollContainer">
-        <textarea
-          className="codeWindowTextArea"
-          ref={textareaRef}
-          spellCheck={false}
-          defaultValue={code}
-          onChange={(e) => setCode(e.target.value)}
-        />
-        <SyntaxHighlighter
-          language="python"
-          style={a11yDark}
-          children={code}
-          customStyle={{
-            background: "transparent",
-            minHeight: "100%",
-            fontSize: "14px",
-            lineHeight: "normal",
-            paddingTop: "10px",
-            paddingLeft: "20px",
-            margin: 0,
-            whiteSpace: "pre-wrap",
-          }}
-        >
-          {code}
-        </SyntaxHighlighter>
-      </div>
-      {/* {loaded === false ? <LoadingIndicator /> : null} */}
-    </div>
-  );
+function CodeWindow({ codeContent }) {
+    const [code, setCode] = useState(codeContent);
+    const textareaRef = useRef(null);
+
+    useEffect(() => {
+        setCode(codeContent);
+      }, [codeContent]);
+      return (
+        <div className='codeContainer'>
+            <div className='editorContainer'>
+                <Editor
+                    value={code}
+                    onValueChange={code => setCode(code)}
+                    highlight={code => highlight(code, languages.python)}
+                    padding={15}
+                    style={{
+                    fontFamily: '"Fira code", "Fira Mono", monospace',
+                    fontSize: 13,
+                    color: '#d4d4d4',
+                    height: '100%',
+                    width: '100%',
+                }}
+            />
+            </div>
+        </div>
+      );
 }
-
 export default CodeWindow;
