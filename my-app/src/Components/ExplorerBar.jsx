@@ -1,6 +1,6 @@
 import "../stylesheets/explorerBar.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFont, faFile, faCircleUser, faCube, faCheck, faRefresh} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFont, faFile, faCircleUser, faCube, faCheck, faRefresh} from '@fortawesome/free-solid-svg-icons';
 
 function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	if (nodeTree.length === 0) {
@@ -109,14 +109,28 @@ const ExplorerBar = (props) => {
 	const repoTree = props.repoTree;
 	const updateCodeContent = props.updateCodeContent;
 	const nodeTree = props.nodeTree;
-    const results = props.results;
-    const setResults = props.setResults;
-    const setnodeTree= props.setnodeTree
-	const rootFolderName = nodeTree[0].source.split('/')[0]
+  const results = props.results;
+  const setResults = props.setResults;
+  const setnodeTree= props.setnodeTree;
+	const rootFolderName = nodeTree[0].source.split('/')[0];
 	const repoName = props.repoName;
 
     const reloadClick = () => {
-        // TBU 
+        fetch('http://14.52.35.74/treeUpdate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(repoTree),
+        })
+          .then(response => response.json())
+          .then(data => {
+              // Process the response data as needed
+              console.log('Respond:', data);
+          })
+          .catch((error) => {
+              console.error('Error: ', error);
+          });
         setResults();
         setnodeTree(nodeTree);
     }
