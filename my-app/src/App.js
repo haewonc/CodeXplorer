@@ -104,6 +104,7 @@ function App() {
             <CodeWindow
               codeContent={codeContent}
               activeFile={activeFile}
+              setnodeTree={setnodeTree}
               updateCodeContent={updateCodeContent}
             />
           )}

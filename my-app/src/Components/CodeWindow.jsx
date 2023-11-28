@@ -7,7 +7,7 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-python'; 
 import 'prismjs/themes/prism-tomorrow.css';
 
-function CodeWindow({ codeContent, activeFile, updateCodeContent }) {
+function CodeWindow({ codeContent, activeFile, setnodeTree, updateCodeContent }) {
     const [code, setCode] = useState(codeContent);
     const editorRef = useRef(null);
     const textareaRef = useRef(null);
