@@ -1,7 +1,6 @@
 import "../stylesheets/explorerBar.css";
-import "../stylesheets/explorerBar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInfo, faFile, faCircleUser, faCube } from '@fortawesome/free-solid-svg-icons'
+import { faFont, faFile, faCircleUser, faCube, faCheck, faRefresh} from '@fortawesome/free-solid-svg-icons'
 
 function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	if (nodeTree.length === 0) {
@@ -46,7 +45,7 @@ function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 		<div>
 			<div>
 				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}} onClick={() => handleClick(fileName, repoTree)}>
-				{type === 'variable' && <FontAwesomeIcon icon={faInfo} style={{marginRight: '3px'}}/>}
+				{type === 'variable' && <FontAwesomeIcon icon={faFont} style={{marginRight: '3px'}}/>}
                 {first.name === '__main__' && <FontAwesomeIcon icon={faFile} style={{marginRight: '3px'}}/>}
                 {type === 'class' && <FontAwesomeIcon icon={faCircleUser} style={{marginRight: '3px'}}/>}
                 {type === 'function' && first.name !== '__main__' && <FontAwesomeIcon icon={faCube} style={{marginRight: '3px'}}/>}
@@ -110,8 +109,17 @@ const ExplorerBar = (props) => {
 	const repoTree = props.repoTree;
 	const updateCodeContent = props.updateCodeContent;
 	const nodeTree = props.nodeTree;
+    const results = props.results;
+    const setResults = props.setResults;
+    const setnodeTree= props.setnodeTree
 	const rootFolderName = nodeTree[0].source.split('/')[0]
 	const repoName = props.repoName;
+
+    const reloadClick = () => {
+        // TBU 
+        setResults();
+        setnodeTree(nodeTree);
+    }
 
 	return (
 		<>
@@ -120,9 +128,12 @@ const ExplorerBar = (props) => {
 				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
 				<div class="scrollable-container">
-					<NodeView repoTree={repoTree} nodeTree={nodeTree} depth={0} updateCodeContent={updateCodeContent} />
+					<NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} depth={0} updateCodeContent={updateCodeContent} />
 				</div>
-				<span className="explorerLevelWorkspace"> {repoName} </span>
+                <div className="button-container">
+                    <button onClick={reloadClick} className="doneButton">Reload <FontAwesomeIcon icon={faRefresh} /></button>
+                </div>
+				<span className="explorerLevelWorkspace" style={{marginTop: '20px'}}> {repoName} </span>
 				<div className="scrollable-container">
 					<TreeView repoTree={repoTree} depth={0} updateCodeContent={updateCodeContent} />
 				</div>
