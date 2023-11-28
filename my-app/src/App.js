@@ -44,7 +44,7 @@ function App() {
   const [activeFile, setActiveFile] = useState("");
   const [isTask, setIsTask] = useState(false);
   const [isIndex, setIsIndex] = useState(true);
-  const [results, setResults] = useState({});
+  const [results, setResults] = useState({idx: [], name: [], how: {}});
   const [repoNum, setRepoNum] = useState(-1);
   const [repoTree, setrepoTree] = useState("");
   const [nodeTree, setnodeTree] = useState("");
@@ -59,6 +59,7 @@ function App() {
   const updatePage = (num) => {
     setIsIndex(false);
     setRepoNum(num);
+    setResults({idx: [], name: [], how: {}});
     setrepoTree(repoList[num].tree);
     setnodeTree(repoList[num].node);
     setrepoName(repoList[num].name);
@@ -111,6 +112,7 @@ function App() {
               codeContent={codeContent}
               activeFile={activeFile}
               setnodeTree={setnodeTree}
+              results={results}
               updateCodeContent={updateCodeContent}
             />
           )}

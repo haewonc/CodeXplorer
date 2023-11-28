@@ -12,17 +12,28 @@ const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, setResults, setNodeT
   };
 
   const handleAIClick = () => {
-    const dummy = [{how: 'Dummy how', idx: 0, lines: ['dum']}];
-    const results = {'idx': [], 'line': {}};
+    const dummy = [{how: 'Dummy how', idx: 0, lines: ['hello this is dummy how']}, {how: 'Dummy how', idx: 0, lines: ['hello this is dummy how']}];
+    const results = {idx: [], name: [], how: {}};
     for (const snippet of dummy){
-        const node = nodeTree[snippet.idx]
-        const source = node.source;
+        const source = nodeTree[snippet.idx].source;
+        const sourceSplit = source.split('/');
+        const fileName = sourceSplit[sourceSplit.length - 1];
+        if (!results.idx.includes(snippet.idx)){
+            results.idx.push(snippet.idx);
+            results.name.push(fileName);
+        }
+        if (Object.keys(results.how).includes(fileName)){
+            results.how[fileName] += (' / '+snippet.how);
+        } else {
+            results.how[fileName] = snippet.how;
+        }
     }
-    setResults()
+    setResults(results);
     setIsTask(true);
   }
 
   const handleDoneClick = () => {
+    setResults({idx: [], name: [], how: {}});
     setIsTask(false);
   }
 

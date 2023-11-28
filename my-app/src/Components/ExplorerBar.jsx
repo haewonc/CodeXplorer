@@ -2,12 +2,12 @@ import "../stylesheets/explorerBar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFont, faFile, faCircleUser, faCube, faCheck, faRefresh} from '@fortawesome/free-solid-svg-icons'
 
-function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
+function NodeView({ repoTree, nodeTree, results, depth, updateCodeContent }) {
 	if (nodeTree.length === 0) {
 	  return null;
 	}
 
-	const handleClick = (fileName, repoTree) => {
+	const handleClick = (idx, fileName, repoTree) => {
 		let temp = repoTree;
 		let content = '';
 		for (const item of sourceSplit) {
@@ -39,27 +39,30 @@ function NodeView({ repoTree, nodeTree, depth, updateCodeContent }) {
 	const maxChild = children[children.length - 1] + 1;
 	const nextNode = nodeTree.filter((element) => element.idx >= maxChild)
 	const context = first.context;
+    const highlightClass = results.idx.includes(idx);
 
 	return (
 	  <div>
 		<div>
 			<div>
-				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}} onClick={() => handleClick(fileName, repoTree)}>
-				{type === 'variable' && <FontAwesomeIcon icon={faFont} style={{marginRight: '3px'}}/>}
-                {first.name === '__main__' && <FontAwesomeIcon icon={faFile} style={{marginRight: '3px'}}/>}
-                {type === 'class' && <FontAwesomeIcon icon={faCircleUser} style={{marginRight: '3px'}}/>}
-                {type === 'function' && first.name !== '__main__' && <FontAwesomeIcon icon={faCube} style={{marginRight: '3px'}}/>}
-                {name}
+				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}} onClick={() => handleClick(idx, fileName, repoTree)}>
+                <h3 className={`${highlightClass ? "highlightNode" : ""}`}>
+                    {type === 'variable' && <FontAwesomeIcon icon={faFont} style={{marginRight: '3px'}}/>}
+                    {first.name === '__main__' && <FontAwesomeIcon icon={faFile} style={{marginRight: '3px'}}/>}
+                    {type === 'class' && <FontAwesomeIcon icon={faCircleUser} style={{marginRight: '3px'}}/>}
+                    {type === 'function' && first.name !== '__main__' && <FontAwesomeIcon icon={faCube} style={{marginRight: '3px'}}/>}
+                    {name}
+                </h3>
 				</div>
 				<div>
 				{children.map((child) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
-						<NodeView repoTree={repoTree} nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} updateCodeContent={updateCodeContent} />
+						<NodeView repoTree={repoTree} results={results} nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} updateCodeContent={updateCodeContent} />
 					// </div>
 				))}
 				</div>
 				<div>
-					<NodeView repoTree={repoTree} nodeTree={nextNode} depth={depth} updateCodeContent={updateCodeContent} />
+					<NodeView repoTree={repoTree} results={results} nodeTree={nextNode} depth={depth} updateCodeContent={updateCodeContent} />
 				</div>
 			</div>
 		</div>
@@ -117,7 +120,7 @@ const ExplorerBar = (props) => {
 
     const reloadClick = () => {
         // TBU 
-        setResults();
+        setResults({idx: [], name: [], how: {}});
         setnodeTree(nodeTree);
     }
 
@@ -127,7 +130,7 @@ const ExplorerBar = (props) => {
 				<p className="explorerBarHeading">EXPLORER</p>
 				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
-				<div class="scrollable-container">
+				<div className="scrollable-container">
 					<NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} depth={0} updateCodeContent={updateCodeContent} />
 				</div>
                 <div className="button-container">
