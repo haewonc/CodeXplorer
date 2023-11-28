@@ -44,6 +44,7 @@ function App() {
   const [activeFile, setActiveFile] = useState("");
   const [isTask, setIsTask] = useState(false);
   const [isIndex, setIsIndex] = useState(true);
+  const [results, setResults] = useState({});
   const [repoNum, setRepoNum] = useState(-1);
   const [repoTree, setrepoTree] = useState("");
   const [nodeTree, setnodeTree] = useState("");
@@ -95,12 +96,14 @@ function App() {
             <ExplorerBar
               repoTree={repoTree}
               nodeTree={nodeTree}
+              results={results}
+              setResults={setResults}
               setnodeTree={setnodeTree}
               isTask={isTask}
               updateCodeContent={updateCodeContent}
               repoName={repoName}
             />
-            <AskAIBar returnMain={setIsIndex} isTask={isTask} setIsTask={setIsTask} setnodeTree={setnodeTree} repoInfo={repoList[repoNum]}/>
+            <AskAIBar returnMain={setIsIndex} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} repoInfo={repoList[repoNum]}/>
             <TabBar activeFile={activeFile} />
           </div>
           {activeFile !== "" && (

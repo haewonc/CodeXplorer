@@ -4,7 +4,7 @@ import { faMagnifyingGlass, faHome, faInfo, faCheck } from "@fortawesome/free-so
 import React, { useState } from 'react';
 import Modal from './Modal';
 
-const AskAIBar = ({ returnMain, repoInfo, isTask, setNodeTree, setIsTask }) => {
+const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, setResults, setNodeTree, setIsTask }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleViewTasks = () => {
@@ -12,11 +12,18 @@ const AskAIBar = ({ returnMain, repoInfo, isTask, setNodeTree, setIsTask }) => {
   };
 
   const handleAIClick = () => {
-    setIsTask(true)
+    const dummy = [{how: 'Dummy how', idx: 0, lines: ['dum']}];
+    const results = {'idx': [], 'line': {}};
+    for (const snippet of dummy){
+        const node = nodeTree[snippet.idx]
+        const source = node.source;
+    }
+    setResults()
+    setIsTask(true);
   }
 
   const handleDoneClick = () => {
-    setIsTask(false)
+    setIsTask(false);
   }
 
   return (
@@ -27,9 +34,9 @@ const AskAIBar = ({ returnMain, repoInfo, isTask, setNodeTree, setIsTask }) => {
                 className="askAISearch flex-grow mr-2" 
                 id="search" 
                 name="search" 
-                placeholder="Enter your purpose..."
+                placeholder="Enter your task..."
             />
-            <button onClick={handleAIClick} className="iconButton aiButton">Ask AI <FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+            {!isTask && <button onClick={handleAIClick} className="iconButton aiButton">Ask AI <FontAwesomeIcon icon={faMagnifyingGlass} /></button>}
             {isTask && <p style={{'width':'6px'}}></p>}
             {isTask && <button onClick={handleDoneClick} className="iconButton aiButton">Done <FontAwesomeIcon icon={faCheck} /></button>}
         </div>

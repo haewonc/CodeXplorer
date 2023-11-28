@@ -109,9 +109,17 @@ const ExplorerBar = (props) => {
 	const repoTree = props.repoTree;
 	const updateCodeContent = props.updateCodeContent;
 	const nodeTree = props.nodeTree;
+    const results = props.results;
+    const setResults = props.setResults;
     const setnodeTree= props.setnodeTree
 	const rootFolderName = nodeTree[0].source.split('/')[0]
 	const repoName = props.repoName;
+
+    const reloadClick = () => {
+        // TBU 
+        setResults();
+        setnodeTree(nodeTree);
+    }
 
 	return (
 		<>
@@ -120,10 +128,10 @@ const ExplorerBar = (props) => {
 				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
 				<div class="scrollable-container">
-					<NodeView repoTree={repoTree} nodeTree={nodeTree} depth={0} updateCodeContent={updateCodeContent} />
+					<NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} depth={0} updateCodeContent={updateCodeContent} />
 				</div>
                 <div className="button-container">
-                    <button onClick={() => {setnodeTree(nodeTree)}} className="doneButton">Reload <FontAwesomeIcon icon={faRefresh} /></button>
+                    <button onClick={reloadClick} className="doneButton">Reload <FontAwesomeIcon icon={faRefresh} /></button>
                 </div>
 				<span className="explorerLevelWorkspace" style={{marginTop: '20px'}}> {repoName} </span>
 				<div className="scrollable-container">
