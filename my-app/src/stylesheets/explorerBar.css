@@ -49,3 +49,24 @@
 	overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
 	padding: 0px; /* Add padding for spacing (optional) */
   }
+
+.button-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.doneButton {
+    padding: 2px 4px 2px 4px; 
+    margin: 2px 4px 2px 4px;
+    border-radius: 6px;
+    font-size: 14px;
+    height: 28px;
+    width: 100px;
+    justify-content: center;
+    align-items: center;
+    background-color: #1d2951;
+    border: 1px solid #505b69;
+    cursor: pointer; 
+  }
+  

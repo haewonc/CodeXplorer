@@ -1,15 +1,23 @@
 import "../stylesheets/askAIBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faHome, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faHome, faInfo, faCheck } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from 'react';
 import Modal from './Modal';
 
-const AskAIBar = ({ returnMain, repoInfo }) => {
+const AskAIBar = ({ returnMain, repoInfo, isTask, setNodeTree, setIsTask }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleViewTasks = () => {
     setShowModal(true);
   };
+
+  const handleAIClick = () => {
+    setIsTask(true)
+  }
+
+  const handleDoneClick = () => {
+    setIsTask(false)
+  }
 
   return (
     <div className="askAIBar">
@@ -21,7 +29,9 @@ const AskAIBar = ({ returnMain, repoInfo }) => {
                 name="search" 
                 placeholder="Enter your purpose..."
             />
-            <button className="iconButton">Ask AI <FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+            <button onClick={handleAIClick} className="iconButton aiButton">Ask AI <FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+            {isTask && <p style={{'width':'6px'}}></p>}
+            {isTask && <button onClick={handleDoneClick} className="iconButton aiButton">Done <FontAwesomeIcon icon={faCheck} /></button>}
         </div>
         <div className="askAIContainer">
             <button onClick={handleViewTasks} className="iconButton">View Tasks <FontAwesomeIcon icon={faInfo} /></button>

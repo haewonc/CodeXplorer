@@ -38,3 +38,8 @@
     cursor: pointer; /* Cursor style for button */
   }
   
+
+  .aiButton{
+    background-color: #1d2951;
+    border: 1px solid #505b69;
+  }

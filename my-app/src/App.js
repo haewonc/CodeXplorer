@@ -42,6 +42,7 @@ function findKey(obj, targetKey, content) {
 function App() {
   const [codeContent, setCodeContent] = useState(""); // State variable for code content
   const [activeFile, setActiveFile] = useState("");
+  const [isTask, setIsTask] = useState(false);
   const [isIndex, setIsIndex] = useState(true);
   const [repoNum, setRepoNum] = useState(-1);
   const [repoTree, setrepoTree] = useState("");
@@ -94,10 +95,12 @@ function App() {
             <ExplorerBar
               repoTree={repoTree}
               nodeTree={nodeTree}
+              setnodeTree={setnodeTree}
+              isTask={isTask}
               updateCodeContent={updateCodeContent}
               repoName={repoName}
             />
-            <AskAIBar returnMain={setIsIndex} repoInfo={repoList[repoNum]}/>
+            <AskAIBar returnMain={setIsIndex} isTask={isTask} setIsTask={setIsTask} setnodeTree={setnodeTree} repoInfo={repoList[repoNum]}/>
             <TabBar activeFile={activeFile} />
           </div>
           {activeFile !== "" && (
