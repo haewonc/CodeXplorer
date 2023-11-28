@@ -97,7 +97,7 @@ function App() {
               updateCodeContent={updateCodeContent}
               repoName={repoName}
             />
-            <AskAIBar returnMain={setIsIndex} />
+            <AskAIBar returnMain={setIsIndex} repoInfo={repoList[repoNum]}/>
             <TabBar activeFile={activeFile} />
           </div>
           {activeFile !== "" && (
