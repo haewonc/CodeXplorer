@@ -51,6 +51,7 @@ function App() {
   const [codeContent, setCodeContent] = useState(""); // State variable for code content
   const [activeFile, setActiveFile] = useState("");
   const [isTask, setIsTask] = useState(false);
+  const [isGithub, setIsGithub] = useState(false);
   const [isIndex, setIsIndex] = useState(true);
   const [results, setResults] = useState({idx: [], name: [], how: {}});
   const [repoNum, setRepoNum] = useState(-1);
@@ -75,27 +76,28 @@ function App() {
 
     for (const names of input) {
       console.log(names);
-      if (names == 'github.com') {
+      if (names === 'github.com') {
         check = 'owner';
         continue;
       }
 
-      if (check == 'owner') {
+      if (check === 'owner') {
         owner = names;
         check = 'repoName';
-      } else if (check == 'repoName') {
+      } else if (check === 'repoName') {
         repoName = names;
         check = 'branch';
-      } else if (names != 'tree' && check == 'branch') {
+      } else if (names !== 'tree' && check === 'branch') {
         branch = names;
         check = 'folderPath';
-      } else if (check == 'folderPath' && folderPath == '') {
+      } else if (check === 'folderPath' && folderPath === '') {
         folderPath = folderPath + names;
-      } else if (check == 'folderPath' && folderPath != '') {
+      } else if (check === 'folderPath' && folderPath !== '') {
         folderPath = folderPath + '/' + names;
       }
     }
-
+    setIsIndex(false);
+    setLoading(true);
     fetchGitHubRepoContents(owner, repoName, branch)
     .then(({ files, fileContents }) => {
       let newFiles = files.filter((item) => !item.startsWith(folderPath));
@@ -108,13 +110,16 @@ function App() {
       }
   
       const repo = processTree(newFiles, newFileContents);
-      setIsIndex(false);
+      setIsGithub(true);
       setRepoNum(3);
       setResults({idx: [], name: [], how: {}});
+      setnodeTree(jsonData); // TBU!!!!
       setrepoTree(repo);
+      setLoading(false);
     })
     .catch((error) => {
       console.error("Error fetching GitHub repository contents:", error);
+      setLoading(false);
     });
     
   };
@@ -197,9 +202,9 @@ function App() {
                   type="text"
                   value={inputValue}
                   onChange={handleInputChange}
-                  placeholder="Enter text"
+                  placeholder="Enter repository link"
                 />
-                <button onClick={handleGetValue}>Get Value</button>
+                <button className="Button ml-4" onClick={handleGetValue}>Load</button>
             </div>
             </div>
         </div>
@@ -215,10 +220,11 @@ function App() {
               setResults={setResults}
               setnodeTree={setnodeTree}
               isTask={isTask}
+              isGithub={isGithub}
               updateCodeContent={updateCodeContent}
               repoName={repoName}
             />)}
-            {!loading && (<AskAIBar returnMain={setIsIndex} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} repoInfo={repoInfoList[repoNum]}/>)}
+            {!loading && (<AskAIBar returnMain={setIsIndex} isGithub={isGithub} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} repoInfo={repoInfoList[repoNum]}/>)}
             <TabBar activeFile={activeFile} />
           </div>
           {activeFile !== "" && (

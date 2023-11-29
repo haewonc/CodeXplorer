@@ -4,7 +4,7 @@ import { faMagnifyingGlass, faHome, faInfo, faCheck } from "@fortawesome/free-so
 import React, { useState } from 'react';
 import Modal from './Modal';
 
-const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, setResults, setNodeTree, setIsTask }) => {
+const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, isGithub, setResults, setNodeTree, setIsTask }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleViewTasks = () => {
@@ -56,12 +56,12 @@ const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, setResults, setNodeT
             <p style={{'width':'6px'}}></p>
             <button onClick={() => {returnMain(true)}} className="iconButton">Return <FontAwesomeIcon icon={faHome} /></button>
         </div>
-        <Modal 
+        {!isGithub && (<Modal 
             show={showModal} 
             onClose={() => setShowModal(false)} 
             task1={repoInfo.task1} 
             task2={repoInfo.task2}
-        />
+        />)}
     </div>
   );
 };

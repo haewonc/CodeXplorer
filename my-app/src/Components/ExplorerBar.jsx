@@ -119,7 +119,7 @@ const ExplorerBar = (props) => {
     const results = props.results;
     const setResults = props.setResults;
     const setnodeTree= props.setnodeTree;
-    console.log(nodeTree);
+    console.log(repoTree);
 	const rootFolderName = nodeTree[0].source.split('/')[0];
 	const repoName = props.repoName;
 
@@ -143,7 +143,6 @@ const ExplorerBar = (props) => {
         setnodeTree(nodeTree);
     }
 
-    console.log(nodeTree.filter((element) => element.name === '__main__'))
 	return (
 		<>
 			<div className="explorerBar">

@@ -46,3 +46,17 @@
 	user-select: none; /* Non-prefixed version, currently
 									supported by Chrome, Edge, Opera and Firefox */
 }
+
+
+.Button {
+    padding: 2px 4px 2px 4px; /* Adjust padding as needed */
+    margin: 0;
+    margin-left: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    justify-content: center;
+    background-color: #222222;
+    border: 1px solid #505b69;
+    align-items: center;
+    cursor: pointer; /* Cursor style for button */
+  }
