@@ -5,7 +5,7 @@
 In `analysis.py` at `identify_extreme_events` and `extreme_weather_frequency`
 In `result.py` at `print_extreme_events`
 
-## Task 2. Reformat the date to %Y-%m-%d format.
+## Task 2. Format the date to %Y-%m-%d format when printing date.
 Currently, its printed out as '2023-11-14 00:00:00'.
 Hint: `formatted_date = date.strftime('%Y-%m-%d')`
 ### Example answer

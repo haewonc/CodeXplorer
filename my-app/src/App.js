@@ -30,7 +30,7 @@ const repoList = [repo1, repo2]; // local var; don't pass it
 const nodeList = [jsonData1, jsonData2];
 const repoInfoList = [
   { name: "example1", desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
-  { name: "example2", desc: "Analyze and Print Weather Data", task1: "Add humidity threshold (80) to extreme event", task2: "Reformat the date to %Y-%m-%d when print"},
+  { name: "example2", desc: "Analyze and Print Weather Data", task1: "Add humidity threshold (80) to extreme event", task2: "Format the date to %Y-%m-%d format when printing date"},
 ];
 
 function findKey(obj, targetKey, content) {

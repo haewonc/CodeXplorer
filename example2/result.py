@@ -17,11 +17,12 @@ class Printer:
                 print(f" - Month {month}: Temp: {avg_values[0]:.2f}, Hum: {avg_values[1]:.2f}, Wind: {avg_values[2]:.2f}")
 
     def print_extreme_events(self, extreme_events):
-        print("\nExtreme Weather Events:")
+        print("\nDates of the Extreme Weather Events:")
         for city, events in extreme_events.items():
             print(f"\n{city}:")
             for event in events:
-                print(f" - Date: {event[0]}, Temp: {event[1]:.2f}, Wind: {event[2]:.2f}")
+                date = event[0]
+                print(f" - Date: {date}, Temp: {event[1]:.2f}, Wind: {event[2]:.2f}")
 
     def print_temperature_trends(self, trends):
         print("\nTemperature Trends:")
@@ -49,9 +50,10 @@ class Printer:
             for stat_name, value in stats.items():
                 print(f" - {stat_name}: {value:.2f}")
     
-    def print_max_min_temp_days(self, max_min_temp_days):
-        print("\nDays with Maximum and Minimum Temperatures:")
+    def print_max_min_temp_dates(self, max_min_temp_days):
+        print("\Dates with Maximum and Minimum Temperatures:")
         for city, temp_info in max_min_temp_days.items():
             print(f"\n{city}:")
-            print(f" - Maximum Temperature: {temp_info['Max Temp']:.2f} °C on {temp_info['Max Temp Day']}")
-            print(f" - Minimum Temperature: {temp_info['Min Temp']:.2f} °C on {temp_info['Min Temp Day']}")
+            max_date, min_date = temp_info['Max Temp Day'], temp_info['Min Temp Day']
+            print(f" - Maximum Temperature: {temp_info['Max Temp']:.2f} °C on {max_date}")
+            print(f" - Minimum Temperature: {temp_info['Min Temp']:.2f} °C on {min_date}")
