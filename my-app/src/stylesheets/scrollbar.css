@@ -1,0 +1,23 @@
+/* body{
+    text-align:center;
+ }  */
+ .scrollable-div{
+    height: 90;
+    /* width: 250px; */
+    overflow-x: auto;
+    margin:auto;
+    padding:5px;
+ }
+ .scrollable-div::-webkit-scrollbar {
+    width: 5px; /* Set the width of the scrollbar */
+    background-color: #000000; /* Set the background color of the scrollbar */
+    position: absolute;
+    left: 0; /* Position the scrollbar on the left of the element */
+ }
+ .scrollable-div::-webkit-scrollbar-thumb {
+    background-color: #ffffff; /* Set the color of the thumb */
+ }
+ ::-webkit-scrollbar-track {
+    background: 000000;
+    border-radius: 5px;
+ }
