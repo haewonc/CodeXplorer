@@ -2,7 +2,7 @@ import "../stylesheets/explorerBar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFont, faFile, faCircleUser, faCube, faCheck, faRefresh} from '@fortawesome/free-solid-svg-icons';
 
-function NodeView({ repoTree, nodeTree, results, depth, updateCodeContent }) {
+function NodeView({ repoTree, nodeTree, results, depth, idx, updateCodeContent }) {
 	if (nodeTree.length === 0) {
 	  return null;
 	}
@@ -34,10 +34,9 @@ function NodeView({ repoTree, nodeTree, results, depth, updateCodeContent }) {
 		};
 	};
 
-	const first = nodeTree[0];
+	const first = nodeTree[idx];
 
 	const generateSpaces = 30 + (depth * 10);
-	const idx = first.idx;
 	const type = first.type;
 	const code = first.code;
 
@@ -46,11 +45,7 @@ function NodeView({ repoTree, nodeTree, results, depth, updateCodeContent }) {
 	const fileName = sourceSplit[sourceSplit.length - 1];
 	const name = first.name === '__main__' ? fileName : first.name;
 
-
 	const children = first.children;
-	const maxChild = children[children.length - 1] + 1;
-	const nextNode = nodeTree.filter((element) => element.idx >= maxChild)
-	const context = first.context;
     const highlightClass = results.idx.includes(idx);
 
 	return (
@@ -67,14 +62,11 @@ function NodeView({ repoTree, nodeTree, results, depth, updateCodeContent }) {
                 </h3>
 				</div>
 				<div>
-				{children.map((child) => (
+				{(children.length > 0) && children.map((child) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
-						<NodeView repoTree={repoTree} results={results} nodeTree={nodeTree.filter((element) => element.idx >= child)} depth={depth + 1} updateCodeContent={updateCodeContent} />
+						<NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} depth={depth + 1} idx={child} updateCodeContent={updateCodeContent} />
 					// </div>
 				))}
-				</div>
-				<div>
-					<NodeView repoTree={repoTree} results={results} nodeTree={nextNode} depth={depth} updateCodeContent={updateCodeContent} />
 				</div>
 			</div>
 		</div>
@@ -151,6 +143,7 @@ const ExplorerBar = (props) => {
         setnodeTree(nodeTree);
     }
 
+    console.log(nodeTree.filter((element) => element.name === '__main__'))
 	return (
 		<>
 			<div className="explorerBar">
@@ -158,7 +151,12 @@ const ExplorerBar = (props) => {
 				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
 				<div className="scrollable-container">
-					<NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} depth={0} updateCodeContent={updateCodeContent} />
+                {nodeTree.filter((element) => element.name === '__main__').map((node) => (
+					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
+                    <NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} idx={node.idx} depth={0} updateCodeContent={updateCodeContent} />
+					// </div>
+				))}
+					
 				</div>
                 <div className="button-container">
                     <button onClick={reloadClick} className="doneButton">Reload <FontAwesomeIcon icon={faRefresh} /></button>

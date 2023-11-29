@@ -136,31 +136,33 @@ function App() {
     setRepoNum(num);
     setResults({idx: [], name: [], how: {}});
     setrepoTree(repoList[num]);
-    
-    fetch('https://14.52.35.74/treeUpdate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(repoList[num]),
-    })
-        .then(response => response.json())
-        .then(data => {
-            const procData = [];
-            for (const snippet of data) {
-                const procSnippet = snippet;
-                procSnippet.source = processSource(procSnippet.source);
-                procData.push(procSnippet);
-            }
-            setnodeTree(procData);
-            setLoading(false);
-        })
-        .catch((error) => {
-            console.error('Error: ', error);
-            setLoading(false);
-        });
+    setnodeTree(jsonData);
+    // !During Bi is editing server, comment below!
+    // fetch('https://14.52.35.74/treeUpdate', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(repoList[num]),
+    // })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         const procData = [];
+    //         for (const snippet of data) {
+    //             const procSnippet = snippet;
+    //             procSnippet.source = processSource(procSnippet.source);
+    //             procData.push(procSnippet);
+    //         }
+    //         setnodeTree(procData);
+    //         setLoading(false);
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error: ', error);
+    //         setLoading(false);
+    //     });
     setrepoName(repoInfoList[num].name);
     setIsIndex(false);
+    setLoading(false);
   };
 
   return (
