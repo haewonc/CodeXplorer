@@ -7,4 +7,5 @@
 - `my-app`: React.js frontend. 
 - `server`: Backend
 - `ai`: AI pipeline
+
 Note that each components have separate READMEs.
