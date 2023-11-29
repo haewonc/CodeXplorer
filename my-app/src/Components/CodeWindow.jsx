@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useRef, useState, useEffect } from "react";
 import Editor from 'react-simple-code-editor';
@@ -26,17 +25,22 @@ const Popup = ({ onClose, content }) => {
     );
 };
 
-function CodeWindow({ codeIndex, codeContent, activeFile, setnodeTree, results, updateCodeContent }) {
+function CodeWindow({ codeIndex, codeContent, scroll, activeFile, setnodeTree, results, updateCodeContent }) {
     const [code, setCode] = useState(codeContent);
     const [showPopup, setShowPopup] = useState(false);
 
     const editorRef = useRef(null);
     const textareaRef = useRef(null);
+    const scrollableDivRef = useRef(null);
 
     const change = (codes) => {
         setCode(codes);
         updateCodeContent(codes, activeFile);
-    }
+      };
+
+    useEffect(() => {
+        setCode(codeContent);
+    }, [codeContent]);
 
     if(!showPopup && results.name.includes(activeFile)){
         setShowPopup(true);
@@ -45,10 +49,11 @@ function CodeWindow({ codeIndex, codeContent, activeFile, setnodeTree, results, 
     useEffect(() => {
         setShowPopup(false);
         setCode(codeContent);
-      }, [codeContent]);
+        scrollableDivRef.current.scrollTop = scroll;
+      }, [codeContent, scroll]);
     
     return (
-    <div className='codeContainer'>
+    <div className="codeContainer scrollable-div" ref={scrollableDivRef}>
         {showPopup && (
             <Popup 
                 onClose={() => {results.how[activeFile]=''; results.name.splice(results.name.indexOf(activeFile), 1); setShowPopup(false);}} 
@@ -69,8 +74,9 @@ function CodeWindow({ codeIndex, codeContent, activeFile, setnodeTree, results, 
                 width: '100%',
             }}
         />
-        </div>
+      </div>
     </div>
-    );
+  );
 }
+
 export default CodeWindow;

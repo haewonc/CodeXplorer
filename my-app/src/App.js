@@ -13,13 +13,18 @@ import BottomBar from "./Components/BottomBar";
 import { fetchGitHubRepoContents } from "./Functions/GitHubContents";
 import { processTree } from "./Functions/ProcessPaths";
 import jsonData from "./nodes.json";
-import files from "./files.json";
-import fileContents from "./fileContents.json";
+import files1 from "./files1.json";
+import fileContents1 from "./fileContents1.json";
+import files2 from "./files2.json";
+import fileContents2 from "./fileContents2.json";
 
-const repo = await processTree(files, fileContents);
+// const {files, fileContents} = fetchGitHubRepoContents('stdeguzman', 'example2', 'main');
+
+const repo1 = await processTree(files1, fileContents1);
+const repo2 = await processTree(files2, fileContents2);
 const repoList = [
-  { name: "example1", tree: repo, node: jsonData, desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
-  { name: "example1", tree: repo, node: jsonData, desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
+  { name: "example1", tree: repo1, node: jsonData, desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
+  { name: "example1", tree: repo2, node: jsonData, desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
 ];
 
 function findKey(obj, targetKey, content) {
@@ -111,6 +116,7 @@ function App() {
             <CodeWindow
               codeContent={codeContent}
               activeFile={activeFile}
+              scroll={50}
               setnodeTree={setnodeTree}
               results={results}
               updateCodeContent={updateCodeContent}
