@@ -49,8 +49,11 @@ function CodeWindow({ codeIndex, codeContent, scroll, activeFile, setnodeTree, r
     useEffect(() => {
         setShowPopup(false);
         setCode(codeContent);
-        scrollableDivRef.current.scrollTop = scroll;
-      }, [codeContent, scroll]);
+      }, [codeContent]);
+
+    useEffect(() => {
+      scrollableDivRef.current.scrollTop = scroll;
+    })
     
     return (
     <div className="codeContainer scrollable-div" ref={scrollableDivRef}>
