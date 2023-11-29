@@ -7,9 +7,11 @@ function NodeView({ repoTree, nodeTree, results, depth, updateCodeContent }) {
 	  return null;
 	}
 
-	const handleClick = (idx, fileName, repoTree) => {
+	const handleClick = (idx, fileName, repoTree, code) => {
 		let temp = repoTree;
 		let content = '';
+		let scrollNum = 0;
+
 		for (const item of sourceSplit) {
 			if (temp.folders[item]) {
 				temp = temp.folders[item];
@@ -17,7 +19,17 @@ function NodeView({ repoTree, nodeTree, results, depth, updateCodeContent }) {
 			else {
 				temp = temp.files;
 				content = temp[fileName];
-				updateCodeContent(content, fileName);
+				let contentSplit = JSON.stringify(content).split('\\n');
+				let count = 0;
+
+				for (const contSplit of contentSplit) {
+
+					if (contSplit == code) {
+						scrollNum = 20 * count;
+					}
+					count = count + 1;
+				}
+				updateCodeContent(content, fileName, scrollNum);
 			}
 		};
 	};
@@ -45,7 +57,7 @@ function NodeView({ repoTree, nodeTree, results, depth, updateCodeContent }) {
 	  <div>
 		<div>
 			<div>
-				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}} onClick={() => handleClick(idx, fileName, repoTree)}>
+				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}} onClick={() => handleClick(idx, fileName, repoTree, code)}>
                 <h3 className={`${highlightClass ? "highlightNode" : ""}`}>
                     {type === 'variable' && <FontAwesomeIcon icon={faFont} style={{marginRight: '3px'}}/>}
                     {first.name === '__main__' && <FontAwesomeIcon icon={faFile} style={{marginRight: '3px'}}/>}

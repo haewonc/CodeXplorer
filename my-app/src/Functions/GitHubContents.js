@@ -2,6 +2,7 @@ import axios from 'axios';
 
 async function fetchGitHubRepoContents(owner, repo, branch) {
   try {
+    console.log('here');
     // Get the Git Tree for the specified branch (recursive)
     const treeResponse = await axios.get(`https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`);
 
