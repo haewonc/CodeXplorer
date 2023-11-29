@@ -119,7 +119,7 @@ const ExplorerBar = (props) => {
 	const repoName = props.repoName;
 
     const reloadClick = () => {
-        fetch('http://14.52.35.74/treeUpdate', {
+        fetch('https://14.52.35.74/treeUpdate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
