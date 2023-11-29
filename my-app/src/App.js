@@ -22,7 +22,7 @@ import files2 from "./files2.json";
 import fileContents2 from "./fileContents2.json";
 
 // const {files1, fileContents1} = fetchGitHubRepoContents('haewonc', 'example1', 'main');
-// const {files2, fileContents2} = fetchGitHubRepoContents('stdeguzman', 'example2', 'main');
+// const {files2, fileContents2} = fetchGitHubRepoContents('haewonc', 'example2', 'main');
 
 const repo1 = await processTree(files1, fileContents1);
 const repo2 = await processTree(files2, fileContents2);
