@@ -25,7 +25,7 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, updateCodeContent }
 				for (const contSplit of contentSplit) {
 
 					if (contSplit == code) {
-						scrollNum = 20 * count;
+						scrollNum = 10 * count;
 					}
 					count = count + 1;
 				}
