@@ -13,7 +13,8 @@ import BottomBar from "./Components/BottomBar";
 
 import { fetchGitHubRepoContents } from "./Functions/GitHubContents";
 import { processTree } from "./Functions/ProcessPaths";
-import jsonData from "./nodes.json";
+import jsonData1 from "./nodes1.json";
+import jsonData2 from "./nodes2.json";
 import files1 from "./files1.json";
 import fileContents1 from "./fileContents1.json";
 import files2 from "./files2.json";
@@ -25,6 +26,7 @@ import fileContents2 from "./fileContents2.json";
 const repo1 = await processTree(files1, fileContents1);
 const repo2 = await processTree(files2, fileContents2);
 const repoList = [repo1, repo2]; // local var; don't pass it
+const nodeList = [jsonData1, jsonData2];
 const repoInfoList = [
   { name: "example1", desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
   { name: "example2", desc: "Analyze and Print Weather Data", task1: "Add humidity threshold (80) to extreme event", task2: "Reformat the date to %Y-%m-%d format"},
@@ -66,7 +68,7 @@ function App() {
     setInputValue(event.target.value);
   };
 
-  const handleGetValue = () => {
+  const handleGetValue = async () => {
     let input = inputValue.split('/')
     let owner = '';
     let repoName = '';
@@ -98,7 +100,8 @@ function App() {
     }
     setIsIndex(false);
     setLoading(true);
-    fetchGitHubRepoContents(owner, repoName, branch)
+    
+fetchGitHubRepoContents(owner, repoName, branch)
     .then(({ files, fileContents }) => {
       let newFiles = files.filter((item) => !item.startsWith(folderPath));
       let newFileContents = {};
@@ -110,16 +113,13 @@ function App() {
       }
   
       const repo = processTree(newFiles, newFileContents);
-      setIsGithub(true);
+      setIsIndex(false);
       setRepoNum(3);
       setResults({idx: [], name: [], how: {}});
-      setnodeTree(jsonData); // TBU!!!!
       setrepoTree(repo);
-      setLoading(false);
     })
     .catch((error) => {
       console.error("Error fetching GitHub repository contents:", error);
-      setLoading(false);
     });
     
   };
@@ -141,7 +141,7 @@ function App() {
     setRepoNum(num);
     setResults({idx: [], name: [], how: {}});
     setrepoTree(repoList[num]);
-    setnodeTree(jsonData);
+    setnodeTree(nodeList[num]);
     // !During Bi is editing server, comment below!
     // fetch('https://14.52.35.74/treeUpdate', {
     //     method: 'POST',
