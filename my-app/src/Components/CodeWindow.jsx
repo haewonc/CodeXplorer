@@ -1,53 +1,78 @@
-import React, { useRef, useState, useEffect } from "react";
-import Editor from "react-simple-code-editor";
-import { highlight, languages } from "prismjs/components/prism-core";
-import "prismjs/components/prism-clike";
-import "prismjs/components/prism-python";
-import "prismjs/themes/prism-tomorrow.css";
-import "../stylesheets/scrollbar.css";
+import React from 'react';
+import { useRef, useState, useEffect } from "react";
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-python'; 
+import 'prismjs/themes/prism-tomorrow.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClose } from '@fortawesome/free-solid-svg-icons'
 
-function CodeWindow({
-  codeContent,
-  activeFile,
-  scroll,
-  setnodeTree,
-  updateCodeContent,
-}) {
-  const [code, setCode] = useState(codeContent);
-  const editorRef = useRef(null);
-  const textareaRef = useRef(null);
-  const scrollableDivRef = useRef(null);
 
-  const change = (codes) => {
-    setCode(codes);
-    updateCodeContent(codes, activeFile);
-  };
+const Popup = ({ onClose, content }) => {
+    const handleCloseClick = (e) => {
+        onClose();
+    };
 
-  useEffect(() => {
-    setCode(codeContent);
-  }, [codeContent]);
+    return (
+        <div className="popup">
+            <div className="popupContent">
+                {content}
+                <p style={{'width': '4px'}}></p>
+                <FontAwesomeIcon icon={faClose} onClick={handleCloseClick}/>
+            </div>
+        </div>
+    );
+};
 
-  useEffect(() => {
-    // if (scrollableDivRef.current) {
-    scrollableDivRef.current.scrollTop = scroll;
-    // }
-  }, []);
+function CodeWindow({ codeIndex, codeContent, scroll, activeFile, setnodeTree, results, updateCodeContent }) {
+    const [code, setCode] = useState(codeContent);
+    const [showPopup, setShowPopup] = useState(false);
 
-  return (
+    const editorRef = useRef(null);
+    const textareaRef = useRef(null);
+    const scrollableDivRef = useRef(null);
+
+    const change = (codes) => {
+        setCode(codes);
+        updateCodeContent(codes, activeFile);
+      };
+
+    useEffect(() => {
+        setCode(codeContent);
+    }, [codeContent]);
+
+    if(!showPopup && results.name.includes(activeFile)){
+        setShowPopup(true);
+    }
+
+    useEffect(() => {
+        setShowPopup(false);
+        setCode(codeContent);
+        scrollableDivRef.current.scrollTop = scroll;
+      }, [codeContent, scroll]);
+    
+    return (
     <div className="codeContainer scrollable-div" ref={scrollableDivRef}>
-      <div className="editorContainer">
-        <Editor
-          value={code}
-          onValueChange={(code) => change(code)}
-          highlight={(code) => highlight(code, languages.python)}
-          padding={15}
-          style={{
-            fontFamily: '"Fira code", "Fira Mono", monospace',
-            fontSize: 13,
-            color: "#d4d4d4",
-            height: "100%",
-            width: "100%",
-          }}
+        {showPopup && (
+            <Popup 
+                onClose={() => {results.how[activeFile]=''; results.name.splice(results.name.indexOf(activeFile), 1); setShowPopup(false);}} 
+                content={<div>{results.how[activeFile]}</div>}
+            />
+        )}
+        <div className='editorContainer'>
+            <Editor
+                value={code}
+                onValueChange={code => change(code)}
+                highlight={code => highlight(code, languages.python)}
+                padding={15}
+                style={{
+                fontFamily: '"Fira code", "Fira Mono", monospace',
+                fontSize: 13,
+                color: '#d4d4d4',
+                height: '100%',
+                width: '100%',
+            }}
         />
       </div>
     </div>
