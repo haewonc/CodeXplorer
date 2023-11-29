@@ -23,9 +23,8 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, updateCodeContent }
 				let count = 0;
 
 				for (const contSplit of contentSplit) {
-
-					if (contSplit == code) {
-						scrollNum = 10 * count;
+					if (contSplit.replace(/\s/g, "") === code.replace(/\s/g, "")) {
+						scrollNum = 20 * count;
 					}
 					count = count + 1;
 				}
