@@ -3,7 +3,7 @@ import "./App.css";
 import "./stylesheets/codeWindow.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faGear } from '@fortawesome/free-solid-svg-icons'
 import LeftNav from "./Components/LeftNav";
 import ExplorerBar from "./Components/ExplorerBar";
 import TabBar from "./Components/TabBar";
@@ -30,7 +30,7 @@ const repoList = [repo1, repo2]; // local var; don't pass it
 const nodeList = [jsonData1, jsonData2];
 const repoInfoList = [
   { name: "example1", desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
-  { name: "example2", desc: "Analyze and Print Weather Data", task1: "Add humidity threshold (80) to extreme event", task2: "Format the date to %Y-%m-%d format when printing date"},
+  { name: "example2", desc: "Analyze and Print Weather Data", task1: "Add humidity threshold (80) to extreme event", task2: "Format the date to %Y-%m-%d when printing date"},
 ];
 
 function findKey(obj, targetKey, content) {
@@ -192,7 +192,7 @@ const updatePage = (num) => {
             <div className="rounded shadow-lg px-6 py-4 bg-gray-700" style={{width:"300px"}}>
                 <h2 className="font-bold text-xl mb-2">Load Your Repo</h2>
                 <div className="mb-4">
-                    <FontAwesomeIcon size='2xl' icon={faGithub}/>
+                    <FontAwesomeIcon size='2xl' icon={faGear}/>
                 </div>
                 <input
                   type="text"
@@ -201,7 +201,7 @@ const updatePage = (num) => {
                   onChange={handleInputChange}
                   placeholder="Enter repository link"
                 />
-                <button className="Button ml-4" onClick={handleGetValue}>Load</button>
+                <p className="mt-4 font-bold">Currently Developing...</p>
             </div>
             </div>
         </div>
