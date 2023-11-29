@@ -6,9 +6,30 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-python'; 
 import 'prismjs/themes/prism-tomorrow.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClose } from '@fortawesome/free-solid-svg-icons'
 
-function CodeWindow({ codeContent, activeFile, setnodeTree, updateCodeContent }) {
+
+const Popup = ({ onClose, content }) => {
+    const handleCloseClick = (e) => {
+        onClose();
+    };
+
+    return (
+        <div className="popup">
+            <div className="popupContent">
+                {content}
+                <p style={{'width': '4px'}}></p>
+                <FontAwesomeIcon icon={faClose} onClick={handleCloseClick}/>
+            </div>
+        </div>
+    );
+};
+
+function CodeWindow({ codeIndex, codeContent, activeFile, setnodeTree, results, updateCodeContent }) {
     const [code, setCode] = useState(codeContent);
+    const [showPopup, setShowPopup] = useState(false);
+
     const editorRef = useRef(null);
     const textareaRef = useRef(null);
 
@@ -17,12 +38,23 @@ function CodeWindow({ codeContent, activeFile, setnodeTree, updateCodeContent })
         updateCodeContent(codes, activeFile);
     }
 
+    if(!showPopup && results.name.includes(activeFile)){
+        setShowPopup(true);
+    }
+
     useEffect(() => {
+        setShowPopup(false);
         setCode(codeContent);
       }, [codeContent]);
     
     return (
     <div className='codeContainer'>
+        {showPopup && (
+            <Popup 
+                onClose={() => {results.how[activeFile]=''; results.name.splice(results.name.indexOf(activeFile), 1); setShowPopup(false);}} 
+                content={<div>{results.how[activeFile]}</div>}
+            />
+        )}
         <div className='editorContainer'>
             <Editor
                 value={code}

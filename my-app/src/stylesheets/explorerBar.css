@@ -70,3 +70,6 @@
     cursor: pointer; 
   }
   
+.highlightNode{
+    color: #1578fa;
+}
