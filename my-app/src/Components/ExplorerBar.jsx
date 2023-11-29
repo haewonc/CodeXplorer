@@ -80,7 +80,7 @@ function TreeView({ repoTree, depth, updateCodeContent }) {
 	}
 
 	const handleFileClick = (content, fileName) => {
-		updateCodeContent(content, fileName);
+		updateCodeContent(content, fileName, 0);
 	};
   
 	const folders = repoTree['folders'];
@@ -143,6 +143,7 @@ const ExplorerBar = (props) => {
         setnodeTree(nodeTree);
     }
 
+    // console.log(nodeTree.filter((element) => element.name === '__main__'))
 	return (
 		<>
 			<div className="explorerBar">
