@@ -159,7 +159,7 @@ const ExplorerBar = (props) => {
 					
 				</div>
                 <div className="button-container">
-                    <button onClick={reloadClick} className="doneButton">Reload <FontAwesomeIcon icon={faRefresh} /></button>
+                    {!props.isTask && <button onClick={reloadClick} className="doneButton">Reload <FontAwesomeIcon icon={faRefresh} /></button>}
                 </div>
 				<span className="explorerLevelWorkspace" style={{marginTop: '20px'}}> {repoName} </span>
 				<div className="scrollable-container">

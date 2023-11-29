@@ -6,28 +6,16 @@ import Modal from './Modal';
 
 const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, isGithub, setResults, setNodeTree, setIsTask }) => {
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleViewTasks = () => {
     setShowModal(true);
   };
 
   const handleAIClick = () => {
-    const dummy = [{how: 'Dummy how', idx: 0, lines: ['hello this is dummy how']}, {how: 'Dummy how', idx: 0, lines: ['hello this is dummy how']}];
+    setLoading(true);
     const results = {idx: [], name: [], how: {}};
-    for (const snippet of dummy){
-        const source = nodeTree[snippet.idx].source;
-        const sourceSplit = source.split('/');
-        const fileName = sourceSplit[sourceSplit.length - 1];
-        if (!results.idx.includes(snippet.idx)){
-            results.idx.push(snippet.idx);
-            results.name.push(fileName);
-        }
-        if (Object.keys(results.how).includes(fileName)){
-            results.how[fileName] += (' / '+snippet.how);
-        } else {
-            results.how[fileName] = snippet.how;
-        }
-    }
+    
     // fetching starts here
     let inputValue = document.getElementById("search").value;
     console.log('input: ', inputValue);
@@ -43,6 +31,20 @@ const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, isGithub, setResults
       .then(data => {
           // Process the response data as needed
           console.log('Respond:', data);
+          for (const snippet of data){
+            const source = nodeTree[snippet.idx].source;
+            const sourceSplit = source.split('/');
+            const fileName = sourceSplit[sourceSplit.length - 1];
+            if (!results.idx.includes(snippet.idx)){
+                results.idx.push(snippet.idx);
+                results.name.push(fileName);
+            }
+            if (Object.keys(results.how).includes(fileName)){
+                results.how[fileName] += (' / '+snippet.how);
+            } else {
+                results.how[fileName] = snippet.how;
+            }
+        }
       })
       .catch((error) => {
           console.error('AskAI Error: ', error);
@@ -50,11 +52,16 @@ const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, isGithub, setResults
 
     setResults(results);
     setIsTask(true);
+    setLoading(false);
   }
 
   const handleDoneClick = () => {
     setResults({idx: [], name: [], how: {}});
     setIsTask(false);
+  }
+
+  if (loading) {
+    return <div>Loading...</div>
   }
 
   return (
