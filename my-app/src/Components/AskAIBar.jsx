@@ -1,12 +1,27 @@
 import "../stylesheets/askAIBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faHome, faInfo, faCheck } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from 'react';
+import { faMagnifyingGlass, faHome, faInfo, faCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 
-const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, isGithub, setResults, setNodeTree, setIsTask }) => {
+const AskAIBar = ({ setIsIndex, repoInfo, isTask, nodeTree, isGithub, setResults, loading, setLoading, setNodeTree, setIsTask }) => {
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [inputValue, setInputValue] = useState(localStorage.getItem("search") || "");
+
+  useEffect(() => {
+    localStorage.setItem("search", inputValue);
+  }, [inputValue]);
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const returnMain = () => {
+    setIsIndex(true);
+    setInputValue("");
+    localStorage.removeItem("search");
+    setIsTask(false);
+  }
 
   const handleViewTasks = () => {
     setShowModal(true);
@@ -44,24 +59,25 @@ const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, isGithub, setResults
             } else {
                 results.how[fileName] = snippet.how;
             }
+            console.log(results);
+            console.log(nodeTree);
+            setResults(results);
+            setIsTask(true);
+            setLoading(false);
         }
       })
       .catch((error) => {
           console.error('AskAI Error: ', error);
-      });
-
-    setResults(results);
-    setIsTask(true);
-    setLoading(false);
+          setLoading(false);
+      });    
   }
 
   const handleDoneClick = () => {
     setResults({idx: [], name: [], how: {}});
+    setShowModal(false);
+    setInputValue("");
+    localStorage.removeItem("search");
     setIsTask(false);
-  }
-
-  if (loading) {
-    return <div>Loading...</div>
   }
 
   return (
@@ -70,18 +86,22 @@ const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, isGithub, setResults
             <input 
                 type="text" 
                 className="askAISearch flex-grow mr-2" 
+                style={{color: '#222222'}}
                 id="search" 
                 name="search" 
-                placeholder="Enter your task..."
+                onChange={handleInputChange}
+                value={inputValue}
+                placeholder={"Enter your task..."}
             />
             {!isTask && <button onClick={handleAIClick} className="iconButton aiButton">Ask AI <FontAwesomeIcon icon={faMagnifyingGlass} /></button>}
             {isTask && <p style={{'width':'6px'}}></p>}
             {isTask && <button onClick={handleDoneClick} className="iconButton aiButton">Done <FontAwesomeIcon icon={faCheck} /></button>}
+            {loading && <button className="iconButton aiButton">Loading <FontAwesomeIcon icon={faSpinner} /></button>}
         </div>
         <div className="askAIContainer">
             <button onClick={handleViewTasks} className="iconButton">View Tasks <FontAwesomeIcon icon={faInfo} /></button>
             <p style={{'width':'6px'}}></p>
-            <button onClick={() => {returnMain(true)}} className="iconButton">Return <FontAwesomeIcon icon={faHome} /></button>
+            <button onClick={returnMain} className="iconButton">Return <FontAwesomeIcon icon={faHome} /></button>
         </div>
         {!isGithub && (<Modal 
             show={showModal} 

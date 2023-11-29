@@ -127,6 +127,7 @@
 .popup {
     position: fixed;
     top: 75px;
+    max-width: 800px;
     right: 20px;
     background-color: rgb(227, 227, 227);
     border-radius: 8px;

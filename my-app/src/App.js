@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import "./App.css";
 import "./stylesheets/codeWindow.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGear } from '@fortawesome/free-solid-svg-icons'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import LeftNav from "./Components/LeftNav";
 import ExplorerBar from "./Components/ExplorerBar";
 import TabBar from "./Components/TabBar";
@@ -12,7 +13,7 @@ import RemoteWindowButton from "./Components/RemoteWindowButton";
 import BottomBar from "./Components/BottomBar";
 
 import { fetchGitHubRepoContents } from "./Functions/GitHubContents";
-import { processTree } from "./Functions/ProcessPaths";
+import { processTree, processSource } from "./Functions/ProcessPaths";
 import jsonData1 from "./nodes1.json";
 import jsonData2 from "./nodes2.json";
 import files1 from "./files1.json";
@@ -29,7 +30,7 @@ const repoList = [repo1, repo2]; // local var; don't pass it
 const nodeList = [jsonData1, jsonData2];
 const repoInfoList = [
   { name: "example1", desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
-  { name: "example2", desc: "Analyze and Print Weather Data", task1: "Add humidity threshold (80) to extreme event", task2: "Reformat the date to %Y-%m-%d format"},
+  { name: "example2", desc: "Analyze and Print Weather Data", task1: "Add humidity threshold (80) to extreme event", task2: "Reformat the date to %Y-%m-%d when print"},
 ];
 
 function findKey(obj, targetKey, content) {
@@ -131,43 +132,37 @@ fetchGitHubRepoContents(owner, repoName, branch)
     setScrollNum(scrollNum);
   };
 
-    function processSource(path) {
-        let parts = path.split('/');
-        return parts.slice(2).join('/');
-    }
-
-    const updatePage = (num) => {
+const updatePage = (num) => {
     setLoading(true);
+    setActiveFile("");
     setRepoNum(num);
     setResults({idx: [], name: [], how: {}});
     setrepoTree(repoList[num]);
-    setnodeTree(nodeList[num]);
-    // !During Bi is editing server, comment below!
-    // fetch('https://14.52.35.74/treeUpdate', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(repoList[num]),
-    // })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         const procData = [];
-    //         for (const snippet of data) {
-    //             const procSnippet = snippet;
-    //             procSnippet.source = processSource(procSnippet.source);
-    //             procData.push(procSnippet);
-    //         }
-    //         setnodeTree(procData);
-    //         setLoading(false);
-    //     })
-    //     .catch((error) => {
-    //         console.error('Error: ', error);
-    //         setLoading(false);
-    //     });
-    setrepoName(repoInfoList[num].name);
-    setIsIndex(false);
-    setLoading(false);
+    // setnodeTree(nodeList[num]);
+    fetch('https://14.52.35.74/treeUpdate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(repoList[num]),
+    })
+        .then(response => response.json())
+        .then(data => {
+            const procData = [];
+            for (const snippet of data) {
+                const procSnippet = snippet;
+                procSnippet.source = processSource(procSnippet.source);
+                procData.push(procSnippet);
+            }
+            setnodeTree(procData);
+            setrepoName(repoInfoList[num].name);
+            setIsIndex(false);
+            setLoading(false);
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+            setLoading(false);
+        });
   };
 
   return (
@@ -196,10 +191,12 @@ fetchGitHubRepoContents(owner, repoName, branch)
           <div className="flex items-center justify-center mt-10">
             <div className="rounded shadow-lg px-6 py-4 bg-gray-700" style={{width:"300px"}}>
                 <h2 className="font-bold text-xl mb-2">Load Your Repo</h2>
-                {/* <p className="text-gray-300 font-bold text-base">Under development <FontAwesomeIcon icon={faGear}/></p>
-                 */}
+                <div className="mb-4">
+                    <FontAwesomeIcon size='2xl' icon={faGithub}/>
+                </div>
                 <input
                   type="text"
+                  style={{color: '#222222', 'borderRadius': '6px', 'padding': '2px', 'fontSize': '14px'}}
                   value={inputValue}
                   onChange={handleInputChange}
                   placeholder="Enter repository link"
@@ -221,10 +218,13 @@ fetchGitHubRepoContents(owner, repoName, branch)
               setnodeTree={setnodeTree}
               isTask={isTask}
               isGithub={isGithub}
+              loading={loading}
+              setLoading={setLoading}
               updateCodeContent={updateCodeContent}
               repoName={repoName}
             />)}
-            {!loading && (<AskAIBar returnMain={setIsIndex} isGithub={isGithub} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} repoInfo={repoInfoList[repoNum]}/>)}
+            {!loading && (<AskAIBar setIsIndex={setIsIndex} isGithub={isGithub} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} loading={loading}
+              setLoading={setLoading} repoInfo={repoInfoList[repoNum]}/>)}
             <TabBar activeFile={activeFile} />
           </div>
           {activeFile !== "" && (
@@ -243,7 +243,27 @@ fetchGitHubRepoContents(owner, repoName, branch)
           </div>
         </div>
       )}
+      {
+        loading && 
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'fixed', 
+            top: 0, 
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)', 
+            zIndex: 1000, 
+            color: 'white', 
+            fontSize: '1.5em'
+          }}>
+            <FontAwesomeIcon size='2xl' icon={faSpinner} spin className="mr-6"/> Loading...
+          </div>
+      }
     </div>
+    
   );
 }
 

@@ -23,4 +23,9 @@ async function processTree(files, fileContents) {
     return repoTree;
 }
 
-export { processTree };
+function processSource(path) {
+    let parts = path.split('/');
+    return parts.slice(2).join('/');
+}
+
+export { processTree, processSource };
