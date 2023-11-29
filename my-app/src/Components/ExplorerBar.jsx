@@ -24,8 +24,9 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
 				let count = 0;
 
 				for (const contSplit of contentSplit) {
-					if (contSplit.replace(/\s/g, "") === code.replace(/\s/g, "")) {
-						scrollNum = 20 * count;
+					if (contSplit.replace(/\s/g, "").includes(code.replace(/\s/g, "")) || code.replace(/\s/g, "").includes(contSplit.replace(/\s/g, ""))) {
+						scrollNum = 25 * count;
+						console.log(code.replace(/\s/g, ""));
 					}
 					count = count + 1;
 				}
