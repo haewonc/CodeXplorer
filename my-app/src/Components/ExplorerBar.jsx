@@ -112,14 +112,14 @@ const ExplorerBar = (props) => {
 	const repoTree = props.repoTree;
 	const updateCodeContent = props.updateCodeContent;
 	const nodeTree = props.nodeTree;
-  const results = props.results;
-  const setResults = props.setResults;
-  const setnodeTree= props.setnodeTree;
+    const results = props.results;
+    const setResults = props.setResults;
+    const setnodeTree= props.setnodeTree;
 	const rootFolderName = nodeTree[0].source.split('/')[0];
 	const repoName = props.repoName;
 
     const reloadClick = () => {
-        fetch('//14.52.35.74/treeUpdate', {
+        fetch('http://14.52.35.74/treeUpdate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
