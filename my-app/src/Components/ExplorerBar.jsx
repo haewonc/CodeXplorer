@@ -115,6 +115,7 @@ const ExplorerBar = (props) => {
     const results = props.results;
     const setResults = props.setResults;
     const setnodeTree= props.setnodeTree;
+    console.log(nodeTree);
 	const rootFolderName = nodeTree[0].source.split('/')[0];
 	const repoName = props.repoName;
 

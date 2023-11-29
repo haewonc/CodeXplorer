@@ -54,8 +54,9 @@ function App() {
   const [results, setResults] = useState({idx: [], name: [], how: {}});
   const [repoNum, setRepoNum] = useState(-1);
   const [repoTree, setrepoTree] = useState("");
-  const [nodeTree, setnodeTree] = useState([{}]);
+  const [nodeTree, setnodeTree] = useState("");
   const [repoName, setrepoName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const updateCodeContent = (newContent, activeFile) => {
     setCodeContent(newContent);
@@ -63,12 +64,18 @@ function App() {
     setrepoTree(findKey(repoTree, activeFile, newContent));
   };
 
-  const updatePage = (num) => {
-    setIsIndex(false);
+    function processSource(path) {
+        let parts = path.split('/');
+        return parts.slice(2).join('/');
+    }
+
+    const updatePage = (num) => {
+    setLoading(true);
     setRepoNum(num);
     setResults({idx: [], name: [], how: {}});
     setrepoTree(repoList[num]);
-    fetch('http://14.52.35.74/treeUpdate', {
+    
+    fetch('https://14.52.35.74/treeUpdate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -77,13 +84,21 @@ function App() {
     })
         .then(response => response.json())
         .then(data => {
-            console.log('Respond:', data);
-            setnodeTree(data);
+            const procData = [];
+            for (const snippet of data) {
+                const procSnippet = snippet;
+                procSnippet.source = processSource(procSnippet.source);
+                procData.push(procSnippet);
+            }
+            setnodeTree(procData);
+            setLoading(false);
         })
         .catch((error) => {
             console.error('Error: ', error);
+            setLoading(false);
         });
     setrepoName(repoInfoList[num].name);
+    setIsIndex(false);
   };
 
   return (
@@ -121,7 +136,7 @@ function App() {
         <div>
           <div className="noselect">
             <LeftNav />
-            <ExplorerBar
+            {!loading && (<ExplorerBar
               repoTree={repoTree}
               nodeTree={nodeTree}
               results={results}
@@ -130,8 +145,8 @@ function App() {
               isTask={isTask}
               updateCodeContent={updateCodeContent}
               repoName={repoName}
-            />
-            <AskAIBar returnMain={setIsIndex} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} repoInfo={repoInfoList[repoNum]}/>
+            />)}
+            {!loading && (<AskAIBar returnMain={setIsIndex} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} repoInfo={repoInfoList[repoNum]}/>)}
             <TabBar activeFile={activeFile} />
           </div>
           {activeFile !== "" && (

@@ -50,7 +50,7 @@ function CodeWindow({ codeIndex, codeContent, scroll, activeFile, setnodeTree, r
         setShowPopup(false);
         setCode(codeContent);
         scrollableDivRef.current.scrollTop = scroll;
-      }, [codeContent, scroll]);
+      }, [codeContent]);
     
     return (
     <div className="codeContainer scrollable-div" ref={scrollableDivRef}>
