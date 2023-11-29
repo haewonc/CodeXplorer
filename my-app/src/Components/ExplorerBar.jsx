@@ -1,5 +1,4 @@
 import "../stylesheets/explorerBar.css";
-import "../stylesheets/explorerBar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfo, faFile, faCircleUser, faCube } from '@fortawesome/free-solid-svg-icons'
 
