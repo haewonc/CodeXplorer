@@ -18,7 +18,8 @@ import fileContents1 from "./fileContents1.json";
 import files2 from "./files2.json";
 import fileContents2 from "./fileContents2.json";
 
-// const {files, fileContents} = fetchGitHubRepoContents('stdeguzman', 'example2', 'main');
+// const {files1, fileContents1} = fetchGitHubRepoContents('haewonc', 'example1', 'main');
+// const {files2, fileContents2} = fetchGitHubRepoContents('stdeguzman', 'example2', 'main');
 
 const repo1 = await processTree(files1, fileContents1);
 const repo2 = await processTree(files2, fileContents2);
@@ -54,11 +55,13 @@ function App() {
   const [repoTree, setrepoTree] = useState("");
   const [nodeTree, setnodeTree] = useState("");
   const [repoName, setrepoName] = useState("");
+  const [scrollNum, setScrollNum] = useState(0);
 
-  const updateCodeContent = (newContent, activeFile) => {
+  const updateCodeContent = (newContent, activeFile, scrollNum) => {
     setCodeContent(newContent);
     setActiveFile(activeFile);
     setrepoTree(findKey(repoTree, activeFile, newContent));
+    setScrollNum(scrollNum);
   };
 
   const updatePage = (num) => {
@@ -116,7 +119,7 @@ function App() {
             <CodeWindow
               codeContent={codeContent}
               activeFile={activeFile}
-              scroll={50}
+              scroll={scrollNum}
               setnodeTree={setnodeTree}
               results={results}
               updateCodeContent={updateCodeContent}
