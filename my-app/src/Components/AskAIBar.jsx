@@ -28,6 +28,26 @@ const AskAIBar = ({ returnMain, repoInfo, isTask, nodeTree, setResults, setNodeT
             results.how[fileName] = snippet.how;
         }
     }
+    // fetching starts here
+    let inputValue = document.getElementById("search").value;
+    console.log('input: ', inputValue);
+
+    fetch(`https://14.52.35.74/askai/${inputValue}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inputValue),
+    })
+      .then(response => response.json())
+      .then(data => {
+          // Process the response data as needed
+          console.log('Respond:', data);
+      })
+      .catch((error) => {
+          console.error('AskAI Error: ', error);
+      });
+
     setResults(results);
     setIsTask(true);
   }
