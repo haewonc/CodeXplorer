@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
 import "./stylesheets/codeWindow.css";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGear } from '@fortawesome/free-solid-svg-icons'
 import LeftNav from "./Components/LeftNav";
 import ExplorerBar from "./Components/ExplorerBar";
 import TabBar from "./Components/TabBar";
@@ -23,9 +24,10 @@ import fileContents2 from "./fileContents2.json";
 
 const repo1 = await processTree(files1, fileContents1);
 const repo2 = await processTree(files2, fileContents2);
-const repoList = [
-  { name: "example1", tree: repo1, node: jsonData, desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
-  { name: "example1", tree: repo2, node: jsonData, desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
+const repoList = [repo1, repo2]; // local var; don't pass it
+const repoInfoList = [
+  { name: "example1", desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
+  { name: "example2", desc: "Analyze and Print Weather Data", task1: "Add humidity threshold (80) to extreme event", task2: "Reformat the date to %Y-%m-%d format"},
 ];
 
 function findKey(obj, targetKey, content) {
@@ -53,7 +55,7 @@ function App() {
   const [results, setResults] = useState({idx: [], name: [], how: {}});
   const [repoNum, setRepoNum] = useState(-1);
   const [repoTree, setrepoTree] = useState("");
-  const [nodeTree, setnodeTree] = useState("");
+  const [nodeTree, setnodeTree] = useState([{}]);
   const [repoName, setrepoName] = useState("");
   const [scrollNum, setScrollNum] = useState(0);
 
@@ -68,9 +70,23 @@ function App() {
     setIsIndex(false);
     setRepoNum(num);
     setResults({idx: [], name: [], how: {}});
-    setrepoTree(repoList[num].tree);
-    setnodeTree(repoList[num].node);
-    setrepoName(repoList[num].name);
+    setrepoTree(repoList[num]);
+    fetch('http://14.52.35.74/treeUpdate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(repoList[num]),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Respond:', data);
+            setnodeTree(data);
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+        });
+    setrepoName(repoInfoList[num].name);
   };
 
   return (
@@ -81,7 +97,7 @@ function App() {
           <h1 className="text-5xl font-bold mb-6">CodeXplorer</h1>
           <p className="text-2xl mb-12">Accelerate Programming with an AI-Assisted Codebase Navigation System</p>
           <div className="grid grid-cols-2 gap-8 items-center justify-center">
-            {repoList.map((repo, index) => (
+            {repoInfoList.map((repo, index) => (
               <div key={index} className="max-w-md rounded overflow-hidden shadow-lg px-6 py-4 bg-gray-700">
                 <h2 className="font-bold text-xl mb-2">{repo.name}</h2>
                 <p className="text-gray-300 font-bold text-base">{repo.desc}</p>
@@ -96,6 +112,12 @@ function App() {
               </div>
             ))}
           </div>
+          <div className="flex items-center justify-center mt-10">
+            <div className="rounded shadow-lg px-6 py-4 bg-gray-700" style={{width:"300px"}}>
+                <h2 className="font-bold text-xl mb-2">Load Your Repo</h2>
+                <p className="text-gray-300 font-bold text-base">Under development <FontAwesomeIcon icon={faGear}/></p>
+            </div>
+            </div>
         </div>
       </div>       
       ) : (
@@ -112,7 +134,7 @@ function App() {
               updateCodeContent={updateCodeContent}
               repoName={repoName}
             />
-            <AskAIBar returnMain={setIsIndex} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} repoInfo={repoList[repoNum]}/>
+            <AskAIBar returnMain={setIsIndex} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} repoInfo={repoInfoList[repoNum]}/>
             <TabBar activeFile={activeFile} />
           </div>
           {activeFile !== "" && (
