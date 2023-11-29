@@ -101,7 +101,7 @@ function App() {
     setIsIndex(false);
     setLoading(true);
     
-    fetchGitHubRepoContents(owner, repoName, branch)
+fetchGitHubRepoContents(owner, repoName, branch)
     .then(({ files, fileContents }) => {
       let newFiles = files.filter((item) => !item.startsWith(folderPath));
       let newFileContents = {};
