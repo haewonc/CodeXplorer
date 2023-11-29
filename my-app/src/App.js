@@ -58,6 +58,65 @@ function App() {
   const [nodeTree, setnodeTree] = useState([{}]);
   const [repoName, setrepoName] = useState("");
   const [scrollNum, setScrollNum] = useState(0);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleGetValue = () => {
+    let input = inputValue.split('/')
+    let owner = '';
+    let repoName = '';
+    let branch = '';
+    let folderPath = '';
+    let check = '';
+
+    for (const names of input) {
+      console.log(names);
+      if (names == 'github.com') {
+        check = 'owner';
+        continue;
+      }
+
+      if (check == 'owner') {
+        owner = names;
+        check = 'repoName';
+      } else if (check == 'repoName') {
+        repoName = names;
+        check = 'branch';
+      } else if (names != 'tree' && check == 'branch') {
+        branch = names;
+        check = 'folderPath';
+      } else if (check == 'folderPath' && folderPath == '') {
+        folderPath = folderPath + names;
+      } else if (check == 'folderPath' && folderPath != '') {
+        folderPath = folderPath + '/' + names;
+      }
+    }
+
+    fetchGitHubRepoContents(owner, repoName, branch)
+    .then(({ files, fileContents }) => {
+      let newFiles = files.filter((item) => !item.startsWith(folderPath));
+      let newFileContents = {};
+  
+      for (const key of fileContents) {
+        if (newFiles.includes(key)) {
+          newFileContents[key] = fileContents[key];
+        }
+      }
+  
+      const repo = processTree(newFiles, newFileContents);
+      setIsIndex(false);
+      setRepoNum(3);
+      setResults({idx: [], name: [], how: {}});
+      setrepoTree(repo);
+    })
+    .catch((error) => {
+      console.error("Error fetching GitHub repository contents:", error);
+    });
+    
+  };
 
   const updateCodeContent = (newContent, activeFile, scrollNum) => {
     setCodeContent(newContent);
@@ -115,7 +174,15 @@ function App() {
           <div className="flex items-center justify-center mt-10">
             <div className="rounded shadow-lg px-6 py-4 bg-gray-700" style={{width:"300px"}}>
                 <h2 className="font-bold text-xl mb-2">Load Your Repo</h2>
-                <p className="text-gray-300 font-bold text-base">Under development <FontAwesomeIcon icon={faGear}/></p>
+                {/* <p className="text-gray-300 font-bold text-base">Under development <FontAwesomeIcon icon={faGear}/></p>
+                 */}
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  placeholder="Enter text"
+                />
+                <button onClick={handleGetValue}>Get Value</button>
             </div>
             </div>
         </div>
