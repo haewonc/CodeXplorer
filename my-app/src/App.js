@@ -20,7 +20,7 @@ const repo3 = await processTree(files3, fileContents3);
 
 const repoList = [repo3]; // local var; don't pass it
 const repoInfoList = [
-  { name: "example3", desc: "Video Diffusion Model", task1: "In `Unet3D`, accept two distinct parameters for the size of the attention head for temporal and spatial attention respectively.", task2: "Write a code that defines Unet3D, GaussianDiffusion, Trainer instances to generate video conditioned to the given text. You don't need to load or train the model."},
+  { name: "example3", desc: "Video Diffusion Model", task1: "In `Unet3D`, accept two distinct parameters for the size of the attention head for temporal and spatial attention respectively.", task2: "Make the code correctly scale attention to the root of number of heads."},
 ];
 
 function findKey(obj, targetKey, content) {

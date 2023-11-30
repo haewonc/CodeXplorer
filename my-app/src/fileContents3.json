@@ -1,10 +1,6 @@
 {
         "example3/README.md":
-        "\n## Task 1\nIn `Unet3D`, accept distinct parameters for the size of the attention head for temporal and spatial attention and modify the definition of attention instances accordingly.\n\n## Task 2 \nWrite a code that defines `Unet3D`, `GaussianDiffusion`, `Trainer` instances to generate video conditioned to the text. You don't need to load or train the model. "
-,
-
-        "example3/main.py":
-        "from video_diffusion import Unet3D, GaussianDiffusion, Trainer\n\ntext = [\n    'a whale breaching from afar',\n    'young girl blowing out candles on her birthday cake',\n    'fireworks with blue and green sparkles'\n]"
+        "\n## Task 1\nIn `Unet3D`, accept distinct parameters for the size of the attention head for temporal and spatial attention and modify the definition of attention instances accordingly.\n\n## Task 2 \nCurrently the code has one error. The attention mechanism should be scaled to the root of the number of heads, $Attention(Q, K, V ) = softmax(\\frac{QK^T}{\\sqrt{\\text{num\\_heads}}} )V$. But currently the code scales to just the number of heads, $Attention(Q, K, V ) = softmax(\\frac{QK^T}{\\text{num\\_heads}} )V$. Solve this error."
 ,
 
         "example3/video_diffusion.py":

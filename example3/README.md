@@ -3,4 +3,4 @@
 In `Unet3D`, accept distinct parameters for the size of the attention head for temporal and spatial attention and modify the definition of attention instances accordingly.
 
 ## Task 2 
-Write a code that defines `Unet3D`, `GaussianDiffusion`, `Trainer` instances to generate video conditioned to the text. You don't need to load or train the model. 
+Currently the code has one error. The attention mechanism should be scaled to the root of the number of heads, $Attention(Q, K, V ) = softmax(\frac{QK^T}{\sqrt{\text{num\_heads}}} )V$. But currently the code scales to just the number of heads, $Attention(Q, K, V ) = softmax(\frac{QK^T}{\text{num\_heads}} )V$. Solve this error.
