@@ -1,9 +1,8 @@
 import "../stylesheets/explorerBar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFont, faFile, faCircleUser, faCube, faRefresh} from '@fortawesome/free-solid-svg-icons';
-import { processSource } from "../Functions/ProcessPaths";
 
-function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, updateCodeContent }) {
+function NodeView({ repoTree, nodeTree, results, depth, idx, updateCodeContent }) {
 	if (nodeTree.length === 0) {
 	  return null;
 	}
@@ -90,9 +89,9 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
                 </h3>
 				</div>
 				<div>
-				{(children.length > 0) && children.filter((element) => filteredNodeTree.includes(element)).map((child) => (
+				{(children.length > 0) && children.map((child) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
-						<NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} depth={depth + 1} filteredNodeTree={filteredNodeTree} idx={child} updateCodeContent={updateCodeContent} />
+						<NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} depth={depth + 1} idx={child} updateCodeContent={updateCodeContent} />
 					// </div>
 				))}
 				</div>
@@ -153,64 +152,6 @@ const ExplorerBar = (props) => {
 	const rootFolderName = nodeTree[0].source.split('/')[0];
 	const repoName = props.repoName;
 
-    const reloadClick = () => {
-        setLoading(true);
-        fetch('https://14.52.35.74/treeUpdate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(repoTree),
-        })
-          .then(response => response.json())
-          .then(data => {
-            const procData = [];
-            for (const snippet of data) {
-                const procSnippet = snippet;
-                procSnippet.source = processSource(procSnippet.source);
-                procData.push(procSnippet);
-            }
-            setnodeTree(procData);
-            setnodeTree(nodeTree);
-            setResults({idx: [], name: [], how: {}});
-            setLoading(false);
-            console.log('Respond:', data);
-          })
-          .catch((error) => {
-              console.error('Error: ', error);
-              setLoading(false);
-          });
-    }
-
-    const filteredNodeTree = [];
-
-    function childrenContains(node, idx) {
-        if (node.idx === idx) return true;
-        else if(node.children.includes(idx)) return true;
-        else {
-            for (const child of node.children){
-                if(childrenContains(nodeTree[child], idx)) return true;
-            }
-        }
-        return false;
-    }
-
-    function filterNode(node){
-        for (const nodeIdx of results.idx){
-            if(childrenContains(node, nodeIdx)) return true;
-        }
-        return false;
-    }
-
-    for(const node of nodeTree){
-        if (!props.isTask) {
-            filteredNodeTree.push(node.idx);
-        } else if (filterNode(node)){
-            console.log(node)
-            filteredNodeTree.push(node.idx);
-        }
-    }
-
     // console.log(nodeTree.filter((element) => element.name === '__main__'))
 	return (
 		<>
@@ -219,16 +160,13 @@ const ExplorerBar = (props) => {
 				<span className="explorerLevelWorkspace">› WORKSPACE (WORKSPACE)</span>
 				<span className="explorerLevelWorkspace"> {rootFolderName} </span>
 				<div className="scrollable-container">
-                {!loading && nodeTree.filter((element) => element.name === '__main__' && filteredNodeTree.includes(element.idx)).map((node) => (
+                {!loading && nodeTree.filter((element) => element.name === '__main__' && props.activeFile !== "" && element.source.includes(props.activeFile)).map((node) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
-                    <NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} filteredNodeTree={filteredNodeTree} idx={node.idx} depth={0} updateCodeContent={updateCodeContent} />
+                    <NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} idx={node.idx} depth={0} updateCodeContent={updateCodeContent} />
 					// </div>
 				))}
 					
 				</div>
-                <div className="button-container">
-                    {!props.isTask && <button onClick={reloadClick} className="doneButton">Reload <FontAwesomeIcon icon={faRefresh} /></button>}
-                </div>
 				<span className="explorerLevelWorkspace" style={{marginTop: '20px'}}> {repoName} </span>
 				<div className="scrollable-container">
 					<TreeView repoTree={repoTree} depth={0} updateCodeContent={updateCodeContent} />

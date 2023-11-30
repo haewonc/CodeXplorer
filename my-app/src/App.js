@@ -42,7 +42,7 @@ function findKey(obj, targetKey, content) {
 
 function App() {
   const [codeContent, setCodeContent] = useState(""); // State variable for code content
-  const [activeFile, setActiveFile] = useState("main.py");
+  const [activeFile, setActiveFile] = useState("");
   const [isTask, setIsTask] = useState(false);
   const [isGithub, setIsGithub] = useState(false);
   const [isIndex, setIsIndex] = useState(true);
@@ -190,6 +190,7 @@ const updatePage = (num) => {
               results={results}
               setResults={setResults}
               setnodeTree={setnodeTree}
+              activeFile={activeFile}
               isTask={isTask}
               isGithub={isGithub}
               loading={loading}
@@ -197,8 +198,6 @@ const updatePage = (num) => {
               updateCodeContent={updateCodeContent}
               repoName={repoName}
             />)}
-            {!loading && (<AskAIBar setIsIndex={setIsIndex} isGithub={isGithub} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} loading={loading}
-              setLoading={setLoading} repoInfo={repoInfoList[repoNum]}/>)}
             <TabBar activeFile={activeFile} />
           </div>
           {activeFile !== "" && (
