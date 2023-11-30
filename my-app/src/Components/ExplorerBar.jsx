@@ -24,9 +24,11 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
 				let count = 0;
 
 				for (const contSplit of contentSplit) {
-					if (contSplit.replace(/\s/g, "").includes(code.replace(/\s/g, "")) || code.replace(/\s/g, "").includes(contSplit.replace(/\s/g, ""))) {
-						scrollNum = 25 * count;
+					if (contSplit.replace(/\s/g, "") != "" && code.replace(/\s/g, "").startsWith(contSplit.replace(/\s/g, ""))) {
+						scrollNum = 17 * count;
 						console.log(code.replace(/\s/g, ""));
+						console.log(contSplit.replace(/\s/g, ""));
+						console.log(scrollNum);
 					}
 					count = count + 1;
 				}
