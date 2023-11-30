@@ -8,7 +8,7 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
 	  return null;
 	}
 
-	const handleClick = (idx, fileName, repoTree, code) => {
+	const handleClick = (idx, fileName, nodeTree, repoTree, code) => {
 		let temp = repoTree;
 		let content = '';
 		let scrollNum = 0;
@@ -22,13 +22,35 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
 				content = temp[fileName];
 				let contentSplit = JSON.stringify(content).split('\\n');
 				let count = 0;
+                let breakOut = false;
 
-				for (const contSplit of contentSplit) {
+                for (let index = 0; index < contentSplit.length; index++){
+                    const contSplit = contentSplit[index];
+                    if (breakOut) break;
 					if (contSplit.replace(/\s/g, "") != "" && code.replace(/\s/g, "").startsWith(contSplit.replace(/\s/g, ""))) {
-						scrollNum = 17 * count;
-						console.log(code.replace(/\s/g, ""));
-						console.log(contSplit.replace(/\s/g, ""));
-						console.log(scrollNum);
+                        if (code.includes("__init__")) {
+                            let parentClass = 0;
+                            for (const classElem of nodeTree.filter((element) => element.type === 'class')) {
+                                if (classElem.children.includes(idx)) {
+                                    parentClass = classElem.name;
+                                }
+                            }
+                            for (let j = Math.max(index-3, 0); j < index; j++){
+                                if(contentSplit[j].replace(/\s/g, "").includes(parentClass)){
+                                    scrollNum = Math.floor(19.4 * count);
+                                    console.log(code.replace(/\s/g, ""));
+                                    console.log(contSplit.replace(/\s/g, ""));
+                                    console.log(scrollNum);
+                                    breakOut = true;
+                                    break;
+                                }
+                            }
+                        } else {
+                            scrollNum = Math.floor(19.4 * count);
+                            console.log(code.replace(/\s/g, ""));
+                            console.log(contSplit.replace(/\s/g, ""));
+                            console.log(scrollNum);
+                        }
 					}
 					count = count + 1;
 				}
@@ -55,7 +77,10 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
 	  <div>
 		<div>
 			<div>
-				<div key={idx} className="folder-name" style={{paddingLeft: `${generateSpaces}px`}} onClick={() => handleClick(idx, fileName, repoTree, code)}>
+				<div key={idx} className={`${type === 'variable' ? "variable-name" : "folder-name"}`} style={{paddingLeft: `${generateSpaces}px`}} onClick={() => {
+                    if(type !== 'variable'){
+                        handleClick(idx, fileName, nodeTree, repoTree, code)
+                    } }}>
                 <h3 className={`${highlightClass ? "highlightNode" : ""}`}>
                     {type === 'variable' && <FontAwesomeIcon icon={faFont} style={{marginRight: '3px'}}/>}
                     {first.name === '__main__' && <FontAwesomeIcon icon={faFile} style={{marginRight: '3px'}}/>}
