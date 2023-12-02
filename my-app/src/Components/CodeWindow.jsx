@@ -33,9 +33,9 @@ function CodeWindow({ codeIndex, codeContent, scroll, activeFile, setnodeTree, r
     const textareaRef = useRef(null);
     const scrollableDivRef = useRef(null);
 
-    const change = (codes) => {
+    const change = (codes, scroll) => {
         setCode(codes);
-        updateCodeContent(codes, activeFile);
+        updateCodeContent(codes, activeFile, scroll);
       };
 
     useEffect(() => {
@@ -68,7 +68,7 @@ function CodeWindow({ codeIndex, codeContent, scroll, activeFile, setnodeTree, r
         <div className='editorContainer' ref={scrollableDivRef}>
             <Editor
                 value={code}
-                onValueChange={code => change(code)}
+                onValueChange={code => change(code, scroll)}
                 highlight={code => highlight(code, languages.python)}
                 padding={15}
                 style={{
