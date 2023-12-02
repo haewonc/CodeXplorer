@@ -122,13 +122,6 @@ const updateCodeContent = (newContent, activeFile, scrollNum) => {
   setScrollNum(scrollNum);
 };
 
-const codeChange = (newContent, activeFile, scrollNum) => {
-  setCodeContent(newContent);
-  setActiveFile(activeFile);
-  setrepoTree(findKey(repoTree, activeFile, newContent));
-  setScrollNum(scrollNum);
-};
-
 const updatePage = (num) => {
     setLoading(true);
     setActiveFile("");
@@ -215,7 +208,7 @@ const updatePage = (num) => {
               scroll={scrollNum}
               setnodeTree={setnodeTree}
               results={results}
-              updateCodeContent={codeChange}
+              updateCodeContent={updateCodeContent}
             />
           )}
           <div className="noselect">
