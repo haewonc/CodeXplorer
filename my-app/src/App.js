@@ -20,7 +20,7 @@ const repo3 = await processTree(files3, fileContents3);
 
 const repoList = [repo3]; // local var; don't pass it
 const repoInfoList = [
-  { name: "example3", desc: "Video Diffusion Model", task1: "In `Unet3D`, accept two distinct parameters for the size of the attention head for temporal and spatial attention respectively.", task2: "Make the code correctly scale attention to the root of number of heads."},
+  { name: "example3", desc: "Video Diffusion Model", task1: "In `Unet3D`, accept two distinct parameters for the size of the attention head for temporal and spatial attention respectively, and change all definitions of attention modules appropriately.", task2: "Correct the scale of the attention to the square root of the number of heads."},
 ];
 
 function findKey(obj, targetKey, content) {
