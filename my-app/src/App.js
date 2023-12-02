@@ -115,12 +115,19 @@ fetchGitHubRepoContents(owner, repoName, branch)
     
   };
 
-  const updateCodeContent = (newContent, activeFile, scrollNum) => {
-    setCodeContent(newContent);
-    setActiveFile(activeFile);
-    setrepoTree(findKey(repoTree, activeFile, newContent));
-    setScrollNum(scrollNum);
-  };
+const updateCodeContent = (newContent, activeFile, scrollNum) => {
+  setCodeContent(newContent);
+  setActiveFile(activeFile);
+  setrepoTree(findKey(repoTree, activeFile, newContent));
+  setScrollNum(scrollNum);
+};
+
+const codeChange = (newContent, activeFile, scrollNum) => {
+  setCodeContent(newContent);
+  setActiveFile(activeFile);
+  setrepoTree(findKey(repoTree, activeFile, newContent));
+  setScrollNum(scrollNum);
+};
 
 const updatePage = (num) => {
     setLoading(true);
@@ -208,7 +215,7 @@ const updatePage = (num) => {
               scroll={scrollNum}
               setnodeTree={setnodeTree}
               results={results}
-              updateCodeContent={updateCodeContent}
+              updateCodeContent={codeChange}
             />
           )}
           <div className="noselect">

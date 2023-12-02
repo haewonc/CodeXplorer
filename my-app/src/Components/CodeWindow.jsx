@@ -58,17 +58,17 @@ function CodeWindow({ codeIndex, codeContent, scroll, activeFile, setnodeTree, r
     console.log(scroll);
     
     return (
-    <div className="codeContainer scrollable-div">
+    <div className="codeContainer scrollable-div" ref={scrollableDivRef}>
         {showPopup && (
             <Popup 
                 onClose={() => {results.how[activeFile]=''; results.name.splice(results.name.indexOf(activeFile), 1); setShowPopup(false);}} 
                 content={<div>{results.how[activeFile]}</div>}
             />
         )}
-        <div className='editorContainer' ref={scrollableDivRef}>
+        <div className='editorContainer' >
             <Editor
                 value={code}
-                onValueChange={code => change(code, scroll)}
+                onValueChange={code => change(code, scrollableDivRef.current.scrollTop)}
                 highlight={code => highlight(code, languages.python)}
                 padding={15}
                 style={{
