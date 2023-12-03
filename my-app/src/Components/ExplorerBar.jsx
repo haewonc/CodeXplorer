@@ -30,12 +30,7 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
                     if (breakOut) break;
 					if (contSplit.replace(/\s/g, "") !== "" && code.replace(/\s/g, "").startsWith(contSplit.replace(/\s/g, ""))) {
                         if (nodeTree[idx].type === 'function' && code.includes("__init__")) {
-                            let parentClass = nodeTree[idx].parent_class;
-                            // for (const classElem of nodeTree.filter((element) => element.type === 'class')) {
-                            //     if (classElem.children.includes(idx)) {
-                            //         parentClass = classElem.name;
-                            //     }
-                            // }
+                            let parentClass = nodeTree[nodeTree[idx].parent_class].name;
                             for (let j = Math.max(index-3, 0); j < index; j++){
                                 if(contentSplit[j].replace(/\s/g, "").includes(parentClass)){
                                     scrollNum = Math.floor(19.4 * count);
