@@ -14,23 +14,13 @@ import BottomBar from "./Components/BottomBar";
 
 import { fetchGitHubRepoContents } from "./Functions/GitHubContents";
 import { processTree, processSource } from "./Functions/ProcessPaths";
-import jsonData1 from "./nodes1.json";
-import jsonData2 from "./nodes2.json";
-import files1 from "./files1.json";
-import fileContents1 from "./fileContents1.json";
-import files2 from "./files2.json";
-import fileContents2 from "./fileContents2.json";
+import files3 from "./files3.json";
+import fileContents3 from "./fileContents3.json";
+const repo3 = await processTree(files3, fileContents3);
 
-// const {files1, fileContents1} = fetchGitHubRepoContents('haewonc', 'example1', 'main');
-// const {files2, fileContents2} = fetchGitHubRepoContents('haewonc', 'example2', 'main');
-
-const repo1 = await processTree(files1, fileContents1);
-const repo2 = await processTree(files2, fileContents2);
-const repoList = [repo1, repo2]; // local var; don't pass it
-const nodeList = [jsonData1, jsonData2];
+const repoList = [repo3]; // local var; don't pass it
 const repoInfoList = [
-  { name: "example1", desc: "Compare and Visualize Linear regression models", task1: "Add normalization to Price variable", task2: "Store performance of all models"},
-  { name: "example2", desc: "Analyze and Print Weather Data", task1: "Add humidity threshold (80) to extreme event", task2: "Format the date to %Y-%m-%d when printing date"},
+  { name: "example3", desc: "Video Diffusion Model", task1: "In `Unet3D`, accept two distinct parameters for the size of the attention head for temporal and spatial attention respectively.", task2: "Make the code correctly scale attention to the root of number of heads."},
 ];
 
 function findKey(obj, targetKey, content) {
@@ -172,9 +162,9 @@ const updatePage = (num) => {
         <div id="firstPage" className="text-center">
           <h1 className="text-5xl font-bold mb-6">CodeXplorer</h1>
           <p className="text-2xl mb-12">Accelerate Programming with an AI-Assisted Codebase Navigation System</p>
-          <div className="grid grid-cols-2 gap-8 items-center justify-center">
+          <div className="flex items-center justify-center">
             {repoInfoList.map((repo, index) => (
-              <div key={index} className="max-w-md rounded overflow-hidden shadow-lg px-6 py-4 bg-gray-700">
+              <div key={index} className="max-w-xl rounded overflow-hidden shadow-lg px-6 py-4 bg-gray-700">
                 <h2 className="font-bold text-xl mb-2">{repo.name}</h2>
                 <p className="text-gray-300 font-bold text-base">{repo.desc}</p>
                 <p className="text-gray-300 text-base">Task 1: {repo.task1}</p>
@@ -188,22 +178,6 @@ const updatePage = (num) => {
               </div>
             ))}
           </div>
-          <div className="flex items-center justify-center mt-10">
-            <div className="rounded shadow-lg px-6 py-4 bg-gray-700" style={{width:"300px"}}>
-                <h2 className="font-bold text-xl mb-2">Load Your Repo</h2>
-                <div className="mb-4">
-                    <FontAwesomeIcon size='2xl' icon={faGear}/>
-                </div>
-                <input
-                  type="text"
-                  style={{color: '#222222', 'borderRadius': '6px', 'padding': '2px', 'fontSize': '14px'}}
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  placeholder="Enter repository link"
-                />
-                <p className="mt-4 font-bold">Currently Developing...</p>
-            </div>
-            </div>
         </div>
       </div>       
       ) : (
@@ -216,6 +190,7 @@ const updatePage = (num) => {
               results={results}
               setResults={setResults}
               setnodeTree={setnodeTree}
+              activeFile={activeFile}
               isTask={isTask}
               isGithub={isGithub}
               loading={loading}
@@ -223,8 +198,6 @@ const updatePage = (num) => {
               updateCodeContent={updateCodeContent}
               repoName={repoName}
             />)}
-            {!loading && (<AskAIBar setIsIndex={setIsIndex} isGithub={isGithub} isTask={isTask} nodeTree={nodeTree} setResults={setResults} setIsTask={setIsTask} setnodeTree={setnodeTree} loading={loading}
-              setLoading={setLoading} repoInfo={repoInfoList[repoNum]}/>)}
             <TabBar activeFile={activeFile} />
           </div>
           {activeFile !== "" && (

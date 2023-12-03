@@ -206,17 +206,28 @@ class CodeTreeBuilder(ast.NodeVisitor):
         for target in node.targets:
             if isinstance(target, ast.Name):
                 var_node = Node(len(self.nodes), 'variable', target.id, ast.unparse(node))
-                self.nodes.append(var_node)
+                exists = False
                 if self.current_node:
-                    self.current_node.add_child(len(self.nodes)-1)
-                    if self.current_node.i == 0:
-                        self.main.append(ast.unparse(node))
+                    for cidx in self.current_node.children:
+                        if self.nodes[cidx].name == var_node.name:
+                            exists = True 
+                            break
+                    if not exists:
+                        self.nodes.append(var_node)
+                        self.current_node.add_child(len(self.nodes)-1)
+                        if self.current_node.i == 0:
+                            self.main.append(ast.unparse(node))
             elif isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name):
                 var_node = Node(len(self.nodes), 'variable', ast.unparse(target).replace('self.',''), ast.unparse(node))
-                self.nodes.append(var_node)
                 assert self.current_class
-                self.current_class.add_child(len(self.nodes)-1)
-
+                for cidx in self.current_class.children:
+                    if self.nodes[cidx].name == var_node.name:
+                        exists = True 
+                        break
+                    if not exists:
+                        self.nodes.append(var_node)
+                        self.current_class.add_child(len(self.nodes)-1)
+                
     def visit_Call(self, node):
         if self.current_node.i == 0:
             self.main.append(ast.unparse(node))
