@@ -12,7 +12,6 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
 		let temp = repoTree;
 		let content = '';
 		let scrollNum = 0;
-        console.log(code);
 
 		for (const item of sourceSplit) {
 			if (temp.folders[item]) {
@@ -31,27 +30,27 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
                     if (breakOut) break;
 					if (contSplit.replace(/\s/g, "") !== "" && code.replace(/\s/g, "").startsWith(contSplit.replace(/\s/g, ""))) {
                         if (nodeTree[idx].type === 'function' && code.includes("__init__")) {
-                            let parentClass = 0;
-                            for (const classElem of nodeTree.filter((element) => element.type === 'class')) {
-                                if (classElem.children.includes(idx)) {
-                                    parentClass = classElem.name;
-                                }
-                            }
+                            let parentClass = nodeTree[idx].parent_class;
+                            // for (const classElem of nodeTree.filter((element) => element.type === 'class')) {
+                            //     if (classElem.children.includes(idx)) {
+                            //         parentClass = classElem.name;
+                            //     }
+                            // }
                             for (let j = Math.max(index-3, 0); j < index; j++){
                                 if(contentSplit[j].replace(/\s/g, "").includes(parentClass)){
                                     scrollNum = Math.floor(19.4 * count);
-                                    console.log(code.replace(/\s/g, ""));
-                                    console.log(contSplit.replace(/\s/g, ""));
-                                    console.log(scrollNum);
+                                    // console.log(code.replace(/\s/g, ""));
+                                    // console.log(contSplit.replace(/\s/g, ""));
+                                    // console.log(scrollNum);
                                     breakOut = true;
                                     break;
                                 }
                             }
                         } else {
                             scrollNum = Math.floor(19.4 * count);
-                            console.log(code.replace(/\s/g, ""));
-                            console.log(contSplit.replace(/\s/g, ""));
-                            console.log(scrollNum);
+                            // console.log(code.replace(/\s/g, ""));
+                            // console.log(contSplit.replace(/\s/g, ""));
+                            // console.log(scrollNum);
                         }
 					}
 					count = count + 1;
@@ -94,7 +93,7 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
 				<div>
 				{(children.length > 0) && children.filter((element) => filteredNodeTree.includes(element)).map((child) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
-						<NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} depth={depth + 1} filteredNodeTree={filteredNodeTree} idx={child} updateCodeContent={updateCodeContent} />
+						<NodeView key={child} repoTree={repoTree} results={results} nodeTree={nodeTree} depth={depth + 1} filteredNodeTree={filteredNodeTree} idx={child} updateCodeContent={updateCodeContent} />
 					// </div>
 				))}
 				</div>
@@ -153,6 +152,8 @@ const ExplorerBar = (props) => {
     const setLoading = props.setLoading;
 	const rootFolderName = nodeTree[0].source.split('/')[0];
 	const repoName = props.repoName;
+    console.log("!");
+    console.log(results);
 
     const reloadClick = () => {
         setLoading(true);
@@ -172,7 +173,6 @@ const ExplorerBar = (props) => {
                 procData.push(procSnippet);
             }
             setnodeTree(procData);
-            setnodeTree(nodeTree);
             setResults({idx: [], name: [], how: {}});
             setLoading(false);
             console.log('Respond:', data);
@@ -222,7 +222,7 @@ const ExplorerBar = (props) => {
 				<div className="scrollable-container">
                 {!loading && nodeTree.filter((element) => element.name === '__main__' && filteredNodeTree.includes(element.idx)).map((node) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
-                    <NodeView repoTree={repoTree} results={results} nodeTree={nodeTree} filteredNodeTree={filteredNodeTree} idx={node.idx} depth={0} updateCodeContent={updateCodeContent} />
+                    <NodeView key={node} repoTree={repoTree} results={results} nodeTree={nodeTree} filteredNodeTree={filteredNodeTree} idx={node.idx} depth={0} updateCodeContent={updateCodeContent} />
 					// </div>
 				))}
 					

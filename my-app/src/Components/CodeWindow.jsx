@@ -7,18 +7,26 @@ import 'prismjs/components/prism-python';
 import 'prismjs/themes/prism-tomorrow.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
-
+import "../stylesheets/codeWindow.css";
 
 const Popup = ({ onClose, content }) => {
     const handleCloseClick = (e) => {
         onClose();
     };
-
+    console.log(content);
     return (
         <div className="popup">
             <div className="popupContent">
-                {content}
-                <p style={{'width': '4px'}}></p>
+                <div className='hows'>
+                    {content.map((elem) => 
+                        (
+                        <div>
+                            <p className='font-bold'>{elem[0]}</p>
+                            <p>{elem[1]}</p>
+                        </div>
+                    ))}
+                </div>
+                <p style={{'width': '10px'}}></p>
                 <FontAwesomeIcon icon={faClose} onClick={handleCloseClick}/>
             </div>
         </div>
@@ -55,14 +63,14 @@ function CodeWindow({ codeIndex, codeContent, scroll, isTask, activeFile, setnod
       scrollableDivRef.current.scrollTop = scroll;
     })
 
-    console.log(scroll);
-    
+    // console.log(scroll);
+
     return (
     <div className="codeContainer scrollable-div" ref={scrollableDivRef}>
         {isTask && showPopup && (
             <Popup 
                 onClose={() => {results.how[activeFile]=''; results.name.splice(results.name.indexOf(activeFile), 1); setShowPopup(false);}} 
-                content={<div>{results.how[activeFile]}</div>}
+                content={results.how[activeFile]}
             />
         )}
         <div className='editorContainer' >

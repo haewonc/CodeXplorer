@@ -4,7 +4,7 @@ import { faMagnifyingGlass, faHome, faInfo, faCheck, faSpinner } from "@fortawes
 import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 
-const AskAIBar = ({ setIsIndex, repoInfo, isTask, nodeTree, isGithub, setResults, loading, setLoading, setNodeTree, setIsTask }) => {
+const AskAIBar = ({ setIsIndex, repoInfo, isTask, nodeTree, isGithub, setResults, loading, setLoading, setnodeTree, setIsTask }) => {
   const [showModal, setShowModal] = useState(false);
   const [inputValue, setInputValue] = useState(localStorage.getItem("search") || "");
 
@@ -57,16 +57,18 @@ const AskAIBar = ({ setIsIndex, repoInfo, isTask, nodeTree, isGithub, setResults
             const fileName = sourceSplit[sourceSplit.length - 1];
             if (!results.idx.includes(snippet.idx)){
                 results.idx.push(snippet.idx);
-                results.name.push(fileName);
+                if (!results.name.includes(fileName)){ results.name.push(fileName); }
             }
+            const parent = nodeTree[snippet.idx].parent_class;
+            console.log(parent)
+            const name = (parent != 'None' ? nodeTree[parent].name + " " : '') + nodeTree[snippet.idx].name;
             if (Object.keys(results.how).includes(fileName)){
-                results.how[fileName] += (' / '+snippet.how);
+                results.how[fileName].push([name, snippet.how]);
             } else {
-                results.how[fileName] = snippet.how;
+                results.how[fileName] = [[name, snippet.how]];
             }
             console.log(results);
-            console.log(nodeTree);
-            setResults(results);
+            setResults({...results});
             setIsTask(true);
             setLoading(false);
         }
@@ -74,7 +76,7 @@ const AskAIBar = ({ setIsIndex, repoInfo, isTask, nodeTree, isGithub, setResults
       .catch((error) => {
           console.error('AskAI Error: ', error);
           setLoading(false);
-      });    
+      });   
   }
 
   const handleDoneClick = () => {
