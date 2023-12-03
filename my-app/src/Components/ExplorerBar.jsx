@@ -26,8 +26,8 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, updateCodeContent }
                 for (let index = 0; index < contentSplit.length; index++){
                     const contSplit = contentSplit[index];
                     if (breakOut) break;
-					if (contSplit.replace(/\s/g, "") != "" && code.replace(/\s/g, "").startsWith(contSplit.replace(/\s/g, ""))) {
-                        if (code.includes("__init__")) {
+					if (contSplit.replace(/\s/g, "") !== "" && code.replace(/\s/g, "").startsWith(contSplit.replace(/\s/g, ""))) {
+                        if (nodeTree[idx].type === 'function' && code.includes("__init__")) {
                             let parentClass = 0;
                             for (const classElem of nodeTree.filter((element) => element.type === 'class')) {
                                 if (classElem.children.includes(idx)) {
