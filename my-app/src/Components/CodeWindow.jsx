@@ -25,7 +25,7 @@ const Popup = ({ onClose, content }) => {
     );
 };
 
-function CodeWindow({ codeIndex, codeContent, scroll, activeFile, setnodeTree, results, updateCodeContent }) {
+function CodeWindow({ codeIndex, codeContent, scroll, isTask, activeFile, setnodeTree, results, updateCodeContent }) {
     const [code, setCode] = useState(codeContent);
     const [showPopup, setShowPopup] = useState(false);
 
@@ -59,7 +59,7 @@ function CodeWindow({ codeIndex, codeContent, scroll, activeFile, setnodeTree, r
     
     return (
     <div className="codeContainer scrollable-div" ref={scrollableDivRef}>
-        {showPopup && (
+        {isTask && showPopup && (
             <Popup 
                 onClose={() => {results.how[activeFile]=''; results.name.splice(results.name.indexOf(activeFile), 1); setShowPopup(false);}} 
                 content={<div>{results.how[activeFile]}</div>}

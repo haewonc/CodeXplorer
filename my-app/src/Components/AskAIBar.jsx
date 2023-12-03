@@ -46,6 +46,11 @@ const AskAIBar = ({ setIsIndex, repoInfo, isTask, nodeTree, isGithub, setResults
       .then(data => {
           // Process the response data as needed
           console.log('Respond:', data);
+          if (data.length == 0) {
+            alert("No snippet identified. Retry with different prompt.")
+            handleDoneClick();
+            setLoading(false);
+          }
           for (const snippet of data){
             const source = nodeTree[snippet.idx].source;
             const sourceSplit = source.split('/');

@@ -204,6 +204,7 @@ const updatePage = (num) => {
           {activeFile !== "" && (
             <CodeWindow
               codeContent={codeContent}
+              isTask={isTask}
               activeFile={activeFile}
               scroll={scrollNum}
               setnodeTree={setnodeTree}
