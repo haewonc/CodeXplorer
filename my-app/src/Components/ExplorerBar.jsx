@@ -12,6 +12,7 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
 		let temp = repoTree;
 		let content = '';
 		let scrollNum = 0;
+        console.log(code);
 
 		for (const item of sourceSplit) {
 			if (temp.folders[item]) {
@@ -23,12 +24,13 @@ function NodeView({ repoTree, nodeTree, results, depth, idx, filteredNodeTree, u
 				let contentSplit = JSON.stringify(content).split('\\n');
 				let count = 0;
                 let breakOut = false;
-
+                
                 for (let index = 0; index < contentSplit.length; index++){
                     const contSplit = contentSplit[index];
+                    
                     if (breakOut) break;
-					if (contSplit.replace(/\s/g, "") != "" && code.replace(/\s/g, "").startsWith(contSplit.replace(/\s/g, ""))) {
-                        if (code.includes("__init__")) {
+					if (contSplit.replace(/\s/g, "") !== "" && code.replace(/\s/g, "").startsWith(contSplit.replace(/\s/g, ""))) {
+                        if (nodeTree[idx].type === 'function' && code.includes("__init__")) {
                             let parentClass = 0;
                             for (const classElem of nodeTree.filter((element) => element.type === 'class')) {
                                 if (classElem.children.includes(idx)) {
@@ -149,7 +151,6 @@ const ExplorerBar = (props) => {
     const setnodeTree= props.setnodeTree;
     const loading = props.loading;
     const setLoading = props.setLoading;
-    console.log(repoTree);
 	const rootFolderName = nodeTree[0].source.split('/')[0];
 	const repoName = props.repoName;
 
