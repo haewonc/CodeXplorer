@@ -217,7 +217,7 @@ const ExplorerBar = (props) => {
 				<div className="scrollable-container">
                 {!loading && nodeTree.filter((element) => element.name === '__main__' && filteredNodeTree.includes(element.idx)).map((node) => (
 					// <div key={child} className="file-name" style={{paddingLeft: `${generateSpaces}px`}}>
-                    <NodeView key={node} repoTree={repoTree} results={results} nodeTree={nodeTree} filteredNodeTree={filteredNodeTree} idx={node.idx} depth={0} updateCodeContent={updateCodeContent} />
+                    <NodeView key={node.idx} repoTree={repoTree} results={results} nodeTree={nodeTree} filteredNodeTree={filteredNodeTree} idx={node.idx} depth={0} updateCodeContent={updateCodeContent} />
 					// </div>
 				))}
 					
